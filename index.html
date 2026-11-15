@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biologie Lesmodules — Overzicht</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      background-color: #f4f7f9;
+      color: #1e293b;
+      line-height: 1.6;
+      margin: 0;
+      padding: 24px 20px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1b6ca8 0%, #155382 100%);
+      color: white;
+      padding: 32px 30px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 14px rgba(27, 108, 168, 0.18);
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.92;
+      font-size: 1.05rem;
+      max-width: 680px;
+    }
+
+    .section-label {
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #64748b;
+      margin: 0 0 14px 4px;
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .lesson-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 26px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 22px rgba(27, 108, 168, 0.12);
+      border-color: #1b6ca8;
+    }
+
+    .level-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .tag-3vwo {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .tag-4vwo {
+      background: #e8f4fc;
+      color: #1b6ca8;
+    }
+
+    .lesson-card h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.4rem;
+      color: #0f172a;
+    }
+
+    .lesson-card p {
+      margin: 0 0 16px 0;
+      color: #475569;
+      font-size: 0.96rem;
+    }
+
+    .topic-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+
+    .pill {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .start-btn {
+      display: block;
+      text-align: center;
+      background: #1b6ca8;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background 0.15s ease;
+    }
+
+    .start-btn:hover {
+      background: #145382;
+    }
+
+    .start-btn.green {
+      background: #16a34a;
+    }
+
+    .start-btn.green:hover {
+      background: #15803d;
+    }
+
+    .info-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid #2a9d8f;
+      border-radius: 10px;
+      padding: 18px 22px;
+      font-size: 0.94rem;
+      color: #475569;
+    }
+
+    .info-box strong {
+      color: #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="badge">Biologie • Interactieve Lesmodules</div>
+    <h1>Welkom bij de Biologie Lesomgeving</h1>
+    <p>Kies hieronder jouw leerjaar en onderwerp. Elke module bevat kernbegrippen, interactieve schema's, grafieken en oefenvragen met directe feedback.</p>
+  </header>
+
+  <div class="section-label">Beschikbare Lesmodules</div>
+
+  <div class="lesson-grid">
+
+    <!-- KAART 1: 3 VWO ECOLOGIE -->
+    <article class="lesson-card">
+      <div>
+        <span class="level-tag tag-3vwo">Klas 3 VWO • Voorbereiding Bovenbouw</span>
+        <h2>Ecologie: Structuren &amp; Kringlopen</h2>
+        <p>Onderzoek hoe ecosystemen zijn opgebouwd, hoe energie en stoffen door voedselwebben stromen en welke invloed de mens heeft op het biologisch evenwicht.</p>
+        <div class="topic-pills">
+          <span class="pill">Voedselwebben</span>
+          <span class="pill">Koolstof &amp; Stikstof</span>
+          <span class="pill">Optimumkrommen</span>
+          <span class="pill">Successie &amp; Symbiose</span>
+          <span class="pill">Eindtoets</span>
+        </div>
+      </div>
+      <a href="les-ecologie.html" class="start-btn green">Start Module Ecologie →</a>
+    </article>
+
+    <!-- KAART 2: 4 VWO GENETICA -->
+    <article class="lesson-card">
+      <div>
+        <span class="level-tag tag-4vwo">Klas 4 VWO • Bovenbouw</span>
+        <h2>Genetica: Overerving &amp; Kruisingen</h2>
+        <p>Oefen met interactieve kruisingsdiagrammen en stamboomonderzoek, van monohybride kruisingen tot gekoppelde en X-chromosomale overerving.</p>
+        <div class="topic-pills">
+          <span class="pill">Monohybride &amp; Dihybride</span>
+          <span class="pill">Bloedgroepen</span>
+          <span class="pill">Stambomen</span>
+          <span class="pill">Gekoppelde genen</span>
+          <span class="pill">X-chromosomaal</span>
+        </div>
+      </div>
+      <a href="les-genetica.html" class="start-btn">Start Module Genetica →</a>
+    </article>
+
+  </div>
+
+  <div class="info-box">
+    <strong>Tip voor leerlingen:</strong> Gebruik bovenaan elke les de <em>Inhoudsopgave</em> om snel naar een onderdeel te springen. Onderaan je scherm houdt het <em>Scorebord</em> automatisch bij hoeveel vragen je in één keer goed beantwoordt.
+  </div>
+
+</div>
+
+</body>
+</html>

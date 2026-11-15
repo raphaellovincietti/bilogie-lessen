@@ -1,0 +1,3050 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biologie Lesmodule: Genetica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f9;
+      color: #1e293b;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container { max-width: 820px; margin: 0 auto; }
+    header {
+      background: #1b6ca8;
+      color: white;
+      padding: 24px 30px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    h1 { margin: 0 0 8px 0; font-size: 1.8rem; }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px 30px;
+      margin-bottom: 24px;
+      border: 1px solid #cbd5e1;
+    }
+    h2 {
+      color: #1b6ca8;
+      margin-top: 0;
+      border-bottom: 2px solid #e8f4fc;
+      padding-bottom: 8px;
+    }
+    /* Begrippen */
+    .vocab-item {
+      background: #e8f4fc;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .vocab-item summary { font-weight: bold; color: #1b6ca8; }
+    .vocab-item p { margin: 8px 0 0 0; }
+
+    /* Kruisingsdiagram */
+    .controls {
+      display: flex;
+      gap: 20px;
+      background: #e8f4fc;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    select { padding: 8px 12px; font-size: 1rem; border-radius: 6px; border: 1px solid #cbd5e1; }
+    table {
+      width: 100%;
+      max-width: 440px;
+      border-collapse: collapse;
+      margin: 0 auto 16px auto;
+      text-align: center;
+    }
+    th, td { border: 2px solid #1b6ca8; padding: 14px; width: 33%; }
+    th { background: #e8f4fc; color: #1b6ca8; font-size: 1.2rem; }
+    td { font-size: 1.15rem; font-weight: bold; }
+    .feno { display: block; font-size: 0.85rem; font-weight: normal; color: #64748b; }
+    .summary-box {
+      background: #f8fafc;
+      border-left: 4px solid #2a9d8f;
+      padding: 12px 16px;
+    }
+
+    /* Quiz */
+    .quiz-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .quiz-btn:hover { background: #e8f4fc; }
+      /* 3D Flashcard Begrippentrainer */
+      .flashcard-scene {
+      width: 100%;
+      max-width: 560px;
+      height: 230px;
+      margin: 18px auto;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flashcard-scene.is-flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    .flashcard-front {
+      background: linear-gradient(135deg, #1b6ca8 0%, #0f4c81 100%);
+      color: #ffffff;
+      border: 2px solid #1b6ca8;
+    }
+    .flashcard-back {
+      background: #ffffff;
+      color: #1e293b;
+      border: 2px solid #2a9d8f;
+      transform: rotateY(180deg);
+    }
+    .fc-badge {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 0.78rem;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+</style>
+</head>
+<body>
+  <style>
+    @keyframes scorePulse {
+      0% { transform: scale(1); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+      40% { transform: scale(1.12); box-shadow: 0 0 22px rgba(234, 179, 8, 0.85); border-color: #eab308; }
+      100% { transform: scale(1); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+    }
+    .score-celebrate {
+      animation: scorePulse 0.7s ease-in-out 2;
+    }
+    .confetti-piece {
+      position: fixed;
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0.4); opacity: 0; }
+    }
+  </style>
+
+  <!-- Mijlpaal Melding (Toast) -->
+  <div id="milestone-toast" style="position: fixed; bottom: 72px; left: 20px; background: #1e293b; color: #ffffff; border-left: 4px solid #eab308; padding: 10px 16px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 101; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+    🔥 5 op een rij goed!
+  </div>
+
+<div class="container">
+  <style>
+    @keyframes scorePulse {
+      0% { transform: scale(1); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+      40% { transform: scale(1.12); box-shadow: 0 0 22px rgba(234, 179, 8, 0.85); border-color: #eab308; }
+      100% { transform: scale(1); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+    }
+    .score-celebrate {
+      animation: scorePulse 0.7s ease-in-out 2;
+    }
+    .confetti-piece {
+      position: fixed;
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0.4); opacity: 0; }
+    }
+  </style>
+
+  <!-- Mijlpaal Melding (Toast) -->
+  <div id="milestone-toast" style="position: fixed; bottom: 72px; left: 20px; background: #1e293b; color: #ffffff; border-left: 4px solid #eab308; padding: 10px 16px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 101; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+    🔥 5 op een rij goed!
+  </div>
+
+  <!-- ZWEVEND SCOREBORD -->
+  <div id="scorebord" style="position: fixed; bottom: 20px; left: 20px; background: #ffffff; color: #000000; border: 2px solid #1b6ca8; padding: 10px 16px; border-radius: 20px; font-weight: bold; font-size: 0.92rem; box-shadow: 0 3px 8px rgba(0,0,0,0.15); z-index: 100;">
+    Score: <span style="color: #16a34a;" id="score-goed">0 goed</span> • <span style="color: #dc2626;" id="score-fout">0 fout</span>
+  </div>
+
+
+  <!-- MODULAIRE KOPTEKST: Pas hier de titel en intro aan -->
+  <header>
+    <div class="badge">Biologie • Klas V4 </div>
+    <h1>Genetica: Monohybride Kruisingen</h1>
+    <p>In deze les onderzoek je hoe eigenschappen van ouders worden doorgegeven aan nakomelingen. We gebruiken als voorbeeld de vachtkleur bij cavia's, waarbij zwart (A) dominant is over wit (a).</p>
+  </header>
+  <!-- AUTOMATISCHE INHOUDSOPGAVE -->
+  <section class="card" style="background: #e8f4fc; border-color: #bae6fd;">
+    <h2 style="border-bottom-color: #bae6fd;">Inhoudsopgave (Klik om direct naar een module te springen)</h2>
+    <div id="inhoudsopgave" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px;"></div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+<!-- ======= MODULE 1: KERNBEGRIPPEN GENETICA (22 BEGRIPPEN - 4 VWO) ===== -->
+<!-- ===================================================================== -->
+  <section class="card">
+    <h2>1. Kernbegrippen Genetica (klik om te openen)</h2>
+    <p>Klik op een begrip om de betekenis te bekijken. Deze 22 termen vormen de basis voor het maken van kruisingsschema's en stambomen in de bovenbouw.</p>
+
+    <details class="vocab-item">
+      <summary>1. Gen &amp; Locus</summary>
+      <p>Een <strong>gen</strong> is een stukje DNA dat de informatie bevat voor één erfelijke eigenschap (een eiwit). De <strong>locus</strong> is de vaste plaats waar dit gen op een chromosoom ligt.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>2. Allel</summary>
+      <p>Een specifieke variant van een gen op dezelfde locus van homologe chromosomen (bijvoorbeeld het allel voor zwarte vacht <em>A</em> of het allel voor witte vacht <em>a</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>3. Genotype</summary>
+      <p>De verzameling genen (allelen) die een organisme in zijn cellen bezit voor één of meer eigenschappen (bijvoorbeeld <em>Aa</em> of <em>AaBb</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>4. Fenotype</summary>
+      <p>Het waarneembare kenmerk of de eigenschap van een organisme (uiterlijk, werking of gedrag), dat tot stand komt door het <strong>genotype én milieufactoren</strong>.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>5. Homozygoot</summary>
+      <p>Een genotype waarbij op beide homologe chromosomen hetzelfde allel voor een eigenschap voorkomt: homozygoot dominant (<em>AA</em>) of homozygoot recessief (<em>aa</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>6. Heterozygoot</summary>
+      <p>Een genotype waarbij op het homologe chromosomenpaar twee verschillende allelen voor een eigenschap voorkomen (bijvoorbeeld <em>Aa</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>7. Dominant allel</summary>
+      <p>Een allel dat altijd tot uiting komt in het fenotype, zowel in homozygote (<em>AA</em>) als in heterozygote (<em>Aa</em>) toestand. Wordt genoteerd met een hoofdletter.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>8. Recessief allel</summary>
+      <p>Een allel dat alleen tot uiting komt in het fenotype als het dominante allel ontbreekt, dus alleen in homozygote toestand (<em>aa</em>). Wordt genoteerd met een kleine letter.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>9. Intermediair fenotype (Onvolledige dominantie)</summary>
+      <p>Een fenotype waarbij geen van beide allelen overheerst, zodat de heterozygoot een mengvorm vertoont tussen de twee homozygote vormen (bijvoorbeeld roze bloemen bij <em>C<sup>R</sup>C<sup>W</sup></em> uit rood × wit).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>10. Codominantie</summary>
+      <p>Het verschijnsel waarbij twee allelen bij een heterozygoot allebei volledig en naast elkaar tot uiting komen in het fenotype (bijvoorbeeld bloedgroep AB bij genotype <em>I<sup>A</sup>I<sup>B</sup></em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>11. Multipele allelen</summary>
+      <p>Wanneer er binnen een populatie drie of meer verschillende allelen voor hetzelfde gen bestaan (bijvoorbeeld bij het ABO-bloedgroepsysteem met de allelen <em>I<sup>A</sup></em>, <em>I<sup>B</sup></em> en <em>i</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>12. P-, F₁- en F₂-generatie</summary>
+      <p>De <strong>P-generatie</strong> (parentes) zijn de ouders waarmee een kruising begint. De <strong>F₁</strong> is de eerste generatie nakomelingen en de <strong>F₂</strong> is de tweede generatie (ontstaan uit kruising binnen de F₁).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>13. Terugkruising</summary>
+      <p>Een kruising tussen een individu met een dominant fenotype (<em>A_</em>) en een homozygoot recessief individu (<em>aa</em>), om te achterhalen of het eerste individu homozygoot (<em>AA</em>) of heterozygoot (<em>Aa</em>) is.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>14. Monohybride &amp; Dihybride kruising</summary>
+      <p>Bij een <strong>monohybride kruising</strong> let je op de overerving van één eigenschap (één genenpaar). Bij een <strong>dihybride kruising</strong> let je op twee eigenschappen tegelijk (twee genenparen, bijv. <em>AaBb</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>15. Onafhankelijke overerving</summary>
+      <p>De verdeling van allelen van twee genenparen die op <strong>verschillende chromosomenparen</strong> liggen. Tijdens de meiose verdelen deze zich onafhankelijk van elkaar over de gameten (klassieke F₂-verhouding 9 : 3 : 3 : 1).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>16. Gekoppelde overerving</summary>
+      <p>Wanneer twee genen op <strong>hetzelfde chromosomenpaar</strong> liggen, waardoor ze samen naar dezelfde gameet gaan (notatie: <em>AB // ab</em>) en niet onafhankelijk overerven.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>17. Crossing-over &amp; Recombinatie</summary>
+      <p>Tijdens de profase I van de meiose kunnen chromatiden van homologe chromosomen stukjes DNA uitwisselen (<strong>crossing-over</strong>). Hierdoor ontstaan nieuwe allelencombinaties in de gameten (<strong>recombinatie</strong>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>18. Autosomen &amp; Geslachtschromosomen</summary>
+      <p><strong>Autosomen</strong> zijn de niet-geslachtschromosomen (bij de mens 22 paren). <strong>Geslachtschromosomen</strong> bepalen het geslacht (het 23e paar: XX bij vrouwen, XY bij mannen).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>19. X-chromosomale (geslachtsgebonden) overerving</summary>
+      <p>Overerving van een gen dat op het X-chromosoom ligt en op het veel kleinere Y-chromosoom ontbreekt (bijvoorbeeld rood-groen kleurenblindheid of hemofilie: <em>X<sup>A</sup>X<sup>a</sup></em> en <em>X<sup>a</sup>Y</em>).</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>20. Draagster</summary>
+      <p>Een vrouw die heterozygoot is voor een X-chromosomaal recessief allel (<em>X<sup>A</sup>X<sup>a</sup></em>). Zij vertoont de eigenschap zelf niet, maar kan het recessieve allel wel doorgeven aan haar kinderen.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>21. Lethale factor</summary>
+      <p>Een allel dat in homozygote toestand (bijvoorbeeld <em>A<sup>L</sup>A<sup>L</sup></em>) dodelijk is vóór of vlak na de geboorte, waardoor de gebruikelijke fenotype-verhouding 3 : 1 verandert in <strong>2 : 1</strong>.</p>
+    </details>
+
+    <details class="vocab-item">
+      <summary>22. Mutatie &amp; Non-disjunctie</summary>
+      <p>Een <strong>mutatie</strong> is een plotselinge verandering in de nucleotidenvolgorde van het DNA (genmutatie) of in het aantal chromosomen (chromosoommutatie, bijv. door <strong>non-disjunctie</strong> tijdens de meiose).</p>
+    </details>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: KERNBEGRIPPEN INVULOEFENING (VWO 4 GENETICA) ======== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Oefening: Kernbegrippen Genetica Invullen</h2>
+    <p>Test of je de belangrijkste genetische begrippen in de juiste biologische context kunt toepassen. Kies steeds het juiste begrip uit de lijst en vul het in de tekst in.</p>
+
+    <!-- Begrippenlijst (Word Bank) -->
+    <div style="background: #e8f4fc; padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; border-left: 4px solid #1b6ca8;">
+      <strong style="color: #1b6ca8;">Kies uit de volgende 12 begrippen:</strong><br>
+      <span id="gen-wordbank" style="display: inline-block; margin-top: 6px; line-height: 1.9; color: #0f172a; font-weight: 600;">
+        <!-- Wordt gehusseld gevuld door JavaScript -->
+      </span>
+    </div>
+
+    <!-- Invultekst -->
+    <div id="gen-begrippen-quiz" style="line-height: 2.2; font-size: 1rem;">
+      <p>
+        <strong>1. Basisbegrippen:</strong> De verzameling allelen die een organisme voor een bepaalde eigenschap in zijn cellen heeft (bijvoorbeeld <em>Aa</em>), noemen we het 
+        <input type="text" class="g-blank" data-answer="genotype" placeholder="1..." style="width: 125px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Hoe deze eigenschap uiteindelijk zichtbaar wordt aan de buitenkant (bijvoorbeeld een zwarte vacht), heet het 
+        <input type="text" class="g-blank" data-answer="fenotype" placeholder="2..." style="width: 125px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">.
+      </p>
+
+      <p>
+        <strong>2. Allelenparen:</strong> Wanneer op beide homologe chromosomen hetzelfde allel ligt (zoals <em>AA</em> of <em>aa</em>), is het organisme 
+        <input type="text" class="g-blank" data-answer="homozygoot" placeholder="3..." style="width: 135px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Zijn de twee allelen verschillend (<em>Aa</em>), dan noemen we dat 
+        <input type="text" class="g-blank" data-answer="heterozygoot" placeholder="4..." style="width: 140px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Een allel dat altijd tot uiting komt — ook als er maar één van aanwezig is — heet 
+        <input type="text" class="g-blank" data-answer="dominant" placeholder="5..." style="width: 120px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">, 
+        terwijl een allel dat alleen in homozygote vorm zichtbaar wordt 
+        <input type="text" class="g-blank" data-answer="recessief" placeholder="6..." style="width: 120px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;"> 
+        wordt genoemd.
+      </p>
+
+      <p>
+        <strong>3. Bijzondere overerving:</strong> Bij bloedgroep AB komen de allelen <em>I<sup>A</sup></em> en <em>I<sup>B</sup></em> allebei volledig naast elkaar tot uiting; dit verschijnsel heet 
+        <input type="text" class="g-blank" data-answer="codominantie" placeholder="7..." style="width: 145px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Ontstaat bij een heterozygoot juist een mengvorm (zoals een roze bloem uit rood × wit), dan spreken we van een 
+        <input type="text" class="g-blank" data-answer="intermediair" placeholder="8..." style="width: 140px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;"> 
+        fenotype. Is een allel in homozygote vorm dodelijk vóór of vlak na de geboorte, dan heet dat een 
+        <input type="text" class="g-blank" data-answer="lethale factor" placeholder="9..." style="width: 145px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">.
+      </p>
+
+      <p>
+        <strong>4. Onderzoek &amp; Meiose:</strong> Om te testen of een dier met een dominant fenotype homozygoot of heterozygoot is, kruis je het met een homozygoot recessief dier; dit heet een 
+        <input type="text" class="g-blank" data-answer="terugkruising" placeholder="10..." style="width: 145px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Een vrouw die een X-chromosomaal recessief allel bij zich draagt zonder zelf ziek te zijn (<em>X<sup>A</sup>X<sup>a</sup></em>), noemen we een 
+        <input type="text" class="g-blank" data-answer="draagster" placeholder="11..." style="width: 125px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">. 
+        Tot slot kunnen tijdens de profase I van de meiose homologe chromosomen stukjes DNA uitwisselen via 
+        <input type="text" class="g-blank" data-answer="crossing-over" placeholder="12..." style="width: 145px; padding: 3px 6px; border-radius: 4px; border: 1px solid #94a3b8;">.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px;">
+      <button type="button" class="quiz-btn" onclick="checkGenBegrippen()" style="width: auto; font-weight: bold; background: #1b6ca8; color: white;">Controleer antwoorden</button>
+      <button type="button" class="quiz-btn" onclick="resetGenBegrippen()" style="width: auto;">Opnieuw</button>
+    </div>
+    <p id="fb-gen-begrippen" style="font-weight: bold; margin-bottom: 0;"></p>
+  </section>
+
+
+<!-- MODULE 2: KRUISINGSDIAGRAM (Verwijder dit <section> blok voor je Evolutie-les) -->
+  <section class="card" id="kruisings-module">
+    <h2>2. Interactief Kruisingsdiagram: Vachtkleur bij cavia's</h2>
+    <p>Kies hieronder het genotype van beide ouders (P) om de nakomelingen (F1) te berekenen.</p>
+
+    <div class="controls">
+      <div>
+        <label for="ouder1"><strong>Ouder 1 (♂):</strong></label><br>
+        <select id="ouder1" onchange="berekenKruising()">
+          <option value="AA">AA (Homozygoot dominant)</option>
+          <option value="Aa" selected>Aa (Heterozygoot)</option>
+          <option value="aa">aa (Homozygoot recessief)</option>
+        </select>
+      </div>
+      <div>
+        <label for="ouder2"><strong>Ouder 2 (♀):</strong></label><br>
+        <select id="ouder2" onchange="berekenKruising()">
+          <option value="AA">AA (Homozygoot dominant)</option>
+          <option value="Aa" selected>Aa (Heterozygoot)</option>
+          <option value="aa">aa (Homozygoot recessief)</option>
+        </select>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Gameten</th>
+        <th id="g1a">A</th>
+        <th id="g1b">a</th>
+      </tr>
+      <tr>
+        <th id="g2a">A</th>
+        <td id="vak1">AA<span class="feno">Zwarte vacht</span></td>
+        <td id="vak2">Aa<span class="feno">Zwarte vacht</span></td>
+      </tr>
+      <tr>
+        <th id="g2b">a</th>
+        <td id="vak3">Aa<span class="feno">Zwarte vacht</span></td>
+        <td id="vak4">aa<span class="feno">Witte vacht</span></td>
+      </tr>
+    </table>
+
+    <div class="summary-box" id="uitslag">
+      <strong>Verhouding Fenotype (F1):</strong> 75% Zwarte vacht • 25% Witte vacht
+    </div>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: 3D FLASHCARD BEGRIPPENTRAINER (VWO 4 GENETICA) ====== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>3D Flashcards: Begrippentrainer Genetica</h2>
+    <p>Klik op de kaart om hem om te draaien. Beoordeel jezelf daarna eerlijk: klik op <strong>✓ Ken ik</strong> om het begrip af te vinken, of op <strong>↻ Nog oefenen</strong> om het later opnieuw te testen.</p>
+
+    <!-- Voortgangsbalk -->
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: 0.92rem; font-weight: bold;">
+      <span id="fc-status" style="color: #1b6ca8;">Beheerst: 0 / 22 begrippen</span>
+      <span id="fc-remaining" style="color: #64748b;">Nog in stapel: 22</span>
+    </div>
+    <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 99px; overflow: hidden;">
+      <div id="fc-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #2a9d8f, #16a34a); transition: width 0.35s ease;"></div>
+    </div>
+
+    <!-- 3D Flip Card -->
+    <div id="fc-scene" class="flashcard-scene" onclick="draaiFlashcard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <span class="fc-badge" style="background: rgba(255,255,255,0.2); color: #ffffff;">Begrip (klik om te draaien)</span>
+          <div id="fc-term" style="font-size: 1.55rem; font-weight: bold; line-height: 1.3;">Laden...</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <span class="fc-badge" style="background: #dcfce7; color: #15803d;">Betekenis</span>
+          <div id="fc-def" style="font-size: 1.02rem; line-height: 1.55; max-width: 480px;">...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actieknoppen -->
+    <div id="fc-controls" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px;">
+      <button type="button" class="quiz-btn" onclick="draaiFlashcard()" style="width: auto; margin-bottom: 0; font-weight: bold;">🔄 Draai kaart om</button>
+      <button type="button" class="quiz-btn" onclick="beoordeelFlashcard(false)" style="width: auto; margin-bottom: 0; font-weight: bold; background: #fef3c7; border-color: #f59e0b; color: #92400e;">↻ Nog oefenen</button>
+      <button type="button" class="quiz-btn" onclick="beoordeelFlashcard(true)" style="width: auto; margin-bottom: 0; font-weight: bold; background: #dcfce7; border-color: #16a34a; color: #15803d;">✓ Ken ik</button>
+      <button type="button" class="quiz-btn" onclick="initFlashcards()" style="width: auto; margin-bottom: 0; font-size: 0.9rem; color: #475569;">Nieuwe stapel</button>
+    </div>
+  </section>
+
+
+
+
+  <!-- MODULE: DIHYBRIDE KRUISINGEN (4x4 KRUISINGSDIAGRAM) -->
+  <section class="card">
+    <h2>Dihybride Kruisingen: Twee Eigenschappen Tegelijk</h2>
+    <p>We kijken naar twee eigenschappen die op <strong>verschillende chromosomenparen</strong> liggen: <strong>A/a</strong> (vachtkleur: A = zwart, a = wit) en <strong>B/b</strong> (vachtlengte: B = kortharig, b = langharig). Kies de ouder-genotypen om het 4×4 kruisingsdiagram te vullen:</p>
+
+    <div class="controls">
+      <div>
+        <label for="diOuder1"><strong>Ouder 1 (♂):</strong></label><br>
+        <select id="diOuder1" onchange="berekenDihybride()">
+          <option value="AaBb" selected>AaBb (Dubbel heterozygoot)</option>
+          <option value="AABB">AABB (Dubbel homozygoot dom.)</option>
+          <option value="aabb">aabb (Dubbel homozygoot rec.)</option>
+          <option value="Aabb">Aabb (Heterozygoot A, hom. rec. b)</option>
+          <option value="aaBb">aaBb (Hom. rec. a, heterozygoot B)</option>
+        </select>
+      </div>
+      <div>
+        <label for="diOuder2"><strong>Ouder 2 (♀):</strong></label><br>
+        <select id="diOuder2" onchange="berekenDihybride()">
+          <option value="AaBb" selected>AaBb (Dubbel heterozygoot)</option>
+          <option value="AABB">AABB (Dubbel homozygoot dom.)</option>
+          <option value="aabb">aabb (Dubbel homozygoot rec.)</option>
+          <option value="Aabb">Aabb (Heterozygoot A, hom. rec. b)</option>
+          <option value="aaBb">aaBb (Hom. rec. a, heterozygoot B)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="max-width: 680px;">
+        <tr>
+          <th style="width: 16%;">Gameten</th>
+          <th style="width: 21%;" id="dg1_1">AB</th>
+          <th style="width: 21%;" id="dg1_2">Ab</th>
+          <th style="width: 21%;" id="dg1_3">aB</th>
+          <th style="width: 21%;" id="dg1_4">ab</th>
+        </tr>
+        <tr>
+          <th id="dg2_1">AB</th>
+          <td id="dv1_1"></td><td id="dv1_2"></td><td id="dv1_3"></td><td id="dv1_4"></td>
+        </tr>
+        <tr>
+          <th id="dg2_2">Ab</th>
+          <td id="dv2_1"></td><td id="dv2_2"></td><td id="dv2_3"></td><td id="dv2_4"></td>
+        </tr>
+        <tr>
+          <th id="dg2_3">aB</th>
+          <td id="dv3_1"></td><td id="dv3_2"></td><td id="dv3_3"></td><td id="dv3_4"></td>
+        </tr>
+        <tr>
+          <th id="dg2_4">ab</th>
+          <td id="dv4_1"></td><td id="dv4_2"></td><td id="dv4_3"></td><td id="dv4_4"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="summary-box" id="diUitslag"></div>
+
+    <p style="margin-top: 16px;"><strong>Controlevraag: Welke fenotype-verhouding ontstaat bij een kruising tussen twee dubbel heterozygote ouders (AaBb × AaBb)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di', 'Niet helemaal. 3 : 1 hoort bij een monohybride kruising (Aa × Aa).')">3 : 1</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-di', 'Goed! Bij onafhankelijke overerving (AaBb × AaBb) ontstaat altijd de klassieke verhouding 9 : 3 : 3 : 1.')">9 : 3 : 3 : 1</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di', 'Nee, 1 : 1 : 1 : 1 ontstaat bij een terugkruising (AaBb × aabb).')">1 : 1 : 1 : 1</button>
+    <p id="fb-di" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 2: Terugkruising in de simulator testen -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 2 (Simulator — Terugkruising): Stel in het schema hierboven Ouder 1 in op <em>AaBb</em> en Ouder 2 op <em>aabb</em>. Welke fenotype-verhouding zie je dan ontstaan, en waarom?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di2', 'Niet helemaal. 9 : 3 : 3 : 1 ontstaat alleen als beide ouders dubbel heterozygoot zijn (AaBb × AaBb).')">9 : 3 : 3 : 1, omdat Ouder 1 alle vier de typen gameten maakt</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-di2', 'Uitstekend! Ouder 1 (AaBb) maakt 4 gelijke typen gameten (AB, Ab, aB, ab) en Ouder 2 (aabb) geeft alleen ab door. Daardoor verschijnen alle 4 fenotypen elk voor 25% (1 : 1 : 1 : 1).')">1 : 1 : 1 : 1 (elk fenotype 25%), omdat Ouder 2 alleen ab-gameten levert en de 4 gameten van Ouder 1 direct zichtbaar worden</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di2', 'Nee, omdat Ouder 1 ook recessieve allelen (a en b) heeft, ontstaan er ook witte en langharige jongen.')">100% zwart en kortharig, omdat A en B dominant zijn over a en b</button>
+    <p id="fb-di2" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 3: Twee verschillende enkelvoudig heterozygote ouders -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 3 (Simulator — Combineren van eigenschappen): Stel Ouder 1 in op <em>Aabb</em> (zwart, langharig) en Ouder 2 op <em>aaBb</em> (wit, kortharig). Welk opvallend fenotype verschijnt er bij 25% van de nakomelingen dat <em>geen van beide ouders</em> zelf heeft?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-di3', 'Helemaal goed! Ouder 1 geeft het dominante allel A (zwart) door en Ouder 2 geeft het dominante allel B (kortharig) door. Zo ontstaat AaBb (zwart en kortharig) bij 4 van de 16 vakjes (25%).')">Zwart en kortharig (AaBb), doordat het dominante allel A van Ouder 1 samenkomt met het dominante allel B van Ouder 2</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di3', 'Kijk nog eens goed naar het schema: wit en langharig (aabb) komt inderdaad ook voor (25%), maar die eigenschappen (wit bij Ouder 2, langharig bij Ouder 1) waren al bij de ouders te zien.')">Alleen wit en langharig (aabb), omdat recessieve eigenschappen altijd overheersen</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di3', 'Nee, bij onafhankelijke overerving mengen kleuren niet (geen intermediair fenotype): A is volledig dominant over a.')">Grijs en halflangharig, door een mengvorm van beide ouders</button>
+    <p id="fb-di3" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 4: Genotype vs Fenotype tellen in AaBb x AaBb -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 4 (Genotype vs. Fenotype): Zet beide ouders terug op <em>AaBb × AaBb</em>. Hoeveel van de 16 vakjes in het diagram hebben het <em>genotype</em> <code>AaBb</code> (precies hetzelfde genotype als beide ouders)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di4', 'Let op de misvatting: 9 van de 16 vakjes hebben hetzelfde fenotype als de ouders (zwart en kortharig: A_B_), maar slechts 4 daarvan hebben ook echt het genotype AaBb.')">9 van de 16 vakjes (56,25%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di4', '1 van de 16 vakjes (6,25%) is homozygoot dominant (AABB) of homozygoot recessief (aabb). Tel de vakjes op de diagonaal van rechtsboven naar linksonder!')">1 van de 16 vakjes (6,25%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-di4', 'Klopt! Op de diagonaal van het 4×4-schema staan precies 4 vakjes met het genotype AaBb (4/16 = 25%).')">4 van de 16 vakjes (25%)</button>
+    <p id="fb-di4" style="font-weight:bold; margin-bottom: 0;"></p>
+
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ===== MODULE: VISUELE 4x4 KRUISINGSTABEL DIHYBRIDE OVERERVING ======= -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Visuele 4×4 Kruisingstabel: Reguliere Dihybride Overerving</h2>
+    <p>Bij <strong>onafhankelijke overerving</strong> liggen de genenparen <strong>A/a</strong> (vachtkleur: <strong>A</strong> = zwart, <strong>a</strong> = wit) en <strong>B/b</strong> (vachtlengte: <strong>B</strong> = kortharig, <strong>b</strong> = langharig) op <em>verschillende chromosomenparen</em>.</p>
+    <p>Kies de ouder-genotypen en <strong>klik op een fenotype-groep</strong> om te zien welke vakjes in de 4×4-tabel daarbij horen:</p>
+
+    <div class="controls">
+      <div>
+        <label for="visDiOuder1"><strong>Ouder 1 (♂):</strong></label><br>
+        <select id="visDiOuder1" onchange="tekenVisueleDihybrideTabel()">
+          <option value="AaBb" selected>AaBb (Zwart, kortharig — dubbel heterozygoot)</option>
+          <option value="Aabb">Aabb (Zwart, langharig)</option>
+          <option value="aaBb">aaBb (Wit, kortharig)</option>
+          <option value="aabb">aabb (Wit, langharig — dubbel recessief)</option>
+          <option value="AABB">AABB (Zwart, kortharig — dubbel dominant)</option>
+        </select>
+      </div>
+      <div>
+        <label for="visDiOuder2"><strong>Ouder 2 (♀):</strong></label><br>
+        <select id="visDiOuder2" onchange="tekenVisueleDihybrideTabel()">
+          <option value="AaBb" selected>AaBb (Zwart, kortharig — dubbel heterozygoot)</option>
+          <option value="Aabb">Aabb (Zwart, langharig)</option>
+          <option value="aaBb">aaBb (Wit, kortharig)</option>
+          <option value="aabb">aabb (Wit, langharig — dubbel recessief)</option>
+          <option value="AABB">AABB (Zwart, kortharig — dubbel dominant)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Klikbare Fenotype Filter / Legenda -->
+    <div id="visDiFenotypeFilter" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; margin-bottom: 16px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- 4x4 Visuele Kruisingstabel -->
+    <div style="overflow-x: auto;">
+      <table id="visDiTabel" style="max-width: 720px; table-layout: fixed;">
+        <!-- Wordt gevuld door JavaScript -->
+      </table>
+    </div>
+
+    <div class="summary-box" id="visDiUitslag" style="margin-top: 14px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- CONTROLEVRAAG 1: Klassieke 9:3:3:1 verhouding -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 1: Welke fenotype-verhouding ontstaat in de visuele tabel hierboven bij een kruising tussen twee dubbel heterozygote ouders (<em>AaBb × AaBb</em>)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi1', 'Niet helemaal. 3 : 1 hoort bij een monohybride kruising (Aa × Aa).')">3 : 1</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-visdi1', 'Goed! Bij onafhankelijke overerving (AaBb × AaBb) ontstaat altijd de klassieke verhouding 9 : 3 : 3 : 1.')">9 : 3 : 3 : 1</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi1', 'Nee, 1 : 1 : 1 : 1 ontstaat bij een terugkruising (AaBb × aabb).')">1 : 1 : 1 : 1</button>
+    <p id="fb-visdi1" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 2: Terugkruising in de visuele simulator -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 2 (Terugkruising): Stel in de visuele tabel hierboven Ouder 1 in op <em>AaBb</em> en Ouder 2 op <em>aabb</em>. Welke fenotype-verhouding zie je dan ontstaan, en waarom?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi2', 'Niet helemaal. 9 : 3 : 3 : 1 ontstaat alleen als beide ouders dubbel heterozygoot zijn (AaBb × AaBb).')">9 : 3 : 3 : 1, omdat Ouder 1 alle vier de typen gameten maakt</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-visdi2', 'Uitstekend! Ouder 1 (AaBb) maakt 4 gelijke typen gameten (AB, Ab, aB, ab) en Ouder 2 (aabb) geeft alleen ab door. Daardoor verschijnen alle 4 fenotypen elk voor 25% (1 : 1 : 1 : 1).')">1 : 1 : 1 : 1 (elk fenotype 25%), omdat Ouder 2 alleen ab-gameten levert en de 4 gameten van Ouder 1 direct zichtbaar worden</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi2', 'Nee, omdat Ouder 1 ook recessieve allelen (a en b) heeft, ontstaan er ook witte en langharige jongen.')">100% zwart en kortharig, omdat A en B dominant zijn over a en b</button>
+    <p id="fb-visdi2" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 3: Combineren van eigenschappen -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 3 (Eigenschappen combineren): Stel Ouder 1 in op <em>Aabb</em> (zwart, langharig) en Ouder 2 op <em>aaBb</em> (wit, kortharig). Welk nieuw fenotype verschijnt er bij 25% van de nakomelingen dat <em>geen van beide ouders</em> zelf heeft?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-visdi3', 'Helemaal goed! Ouder 1 geeft het dominante allel A (zwart) door en Ouder 2 geeft het dominante allel B (kortharig) door. Zo ontstaat AaBb (zwart en kortharig) bij 4 van de 16 vakjes (25%).')">Zwart en kortharig (AaBb), doordat het dominante allel A van Ouder 1 samenkomt met het dominante allel B van Ouder 2</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi3', 'Kijk nog eens goed naar de cavia\'s in de tabel: wit en langharig (aabb) komt inderdaad ook voor (25%), maar die kenmerken waren al bij de ouders aanwezig.')">Alleen wit en langharig (aabb), omdat recessieve eigenschappen altijd overheersen</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi3', 'Nee, bij onafhankelijke overerving mengen kleuren niet (geen intermediair fenotype): A is volledig dominant over a.')">Grijs en halflangharig, door een mengvorm van beide ouders</button>
+    <p id="fb-visdi3" style="font-weight:bold;"></p>
+
+    <!-- CONTROLEVRAAG 4: Genotype vs Fenotype tellen -->
+    <p style="margin-top: 16px;"><strong>Controlevraag 4 (Genotype vs. Fenotype): Zet beide ouders terug op <em>AaBb × AaBb</em> en klik boven de tabel op de blauwe knop <em>Zwart + Kortharig</em>. Van de 9 opgelichte blauwe vakjes: hoeveel hebben er ook echt het <em>genotype</em> <code>AaBb</code>?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi4', 'Let op de misvatting: alle 9 blauwe vakjes hebben het fenotype zwart en kortharig (A_B_), maar slechts 4 daarvan hebben ook echt het genotype AaBb.')">Alle 9 blauwe vakjes (56,25%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visdi4', '1 van de 16 vakjes (6,25%) is homozygoot dominant (AABB). Tel de vakjes met AaBb op de diagonaal van rechtsboven naar linksonder!')">1 van de 16 vakjes (6,25%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-visdi4', 'Klopt! Op de diagonaal van het 4×4-schema staan precies 4 vakjes met het genotype AaBb (4/16 = 25%).')">4 van de 16 vakjes (25%)</button>
+    <p id="fb-visdi4" style="font-weight:bold; margin-bottom: 0;"></p>
+
+
+  </section>
+
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: DIHYBRIDE GAMETEN BOUWER (MEIOSE & ONAFHANKELIJK) === -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Dihybride Stap 1: Gameten Vormen bij Onafhankelijke Overerving</h2>
+    <p>Een veelgemaakte fout bij dihybride kruisingen is het maken van verkeerde gameten (zoals <em>Aa</em> of <em>Bb</em>). Tijdens de <strong>meiose</strong> worden homologe chromosomenparen gescheiden: elke gameet krijgt <strong>precies één allel van elk genenpaar</strong>.</p>
+
+    <div class="controls" style="align-items: flex-end;">
+      <div>
+        <label for="gameteGenotype"><strong>Kies het genotype van de ouder:</strong></label><br>
+        <select id="gameteGenotype" onchange="resetGameteBuilder()">
+          <option value="AaBb" selected>AaBb (Dubbel heterozygoot — 4 typen gameten)</option>
+          <option value="AABb">AABb (Homozygoot A, heterozygoot B — 2 typen)</option>
+          <option value="Aabb">Aabb (Heterozygoot A, homozygoot b — 2 typen)</option>
+          <option value="aaBb">aaBb (Homozygoot a, heterozygoot B — 2 typen)</option>
+          <option value="AABB">AABB (Dubbel homozygoot — 1 type)</option>
+        </select>
+      </div>
+      <div>
+        <button type="button" class="quiz-btn" onclick="resetGameteBuilder()" style="margin-bottom: 0; background: #1b6ca8; color: white; font-weight: bold;">Nieuwe opdracht</button>
+      </div>
+    </div>
+
+    <p id="gametePrompt" style="font-weight: bold; color: #1b6ca8;">Vink alle mogelijke unieke gameten aan die een ouder met genotype <u>AaBb</u> kan maken:</p>
+
+    <div id="gameteOptions" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 14px 0;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <button type="button" class="quiz-btn" onclick="checkGameteBuilder()" style="width: auto; display: inline-block; font-weight: bold;">Controleer gameten</button>
+    <p id="fb-gameteBuilder" style="font-weight: bold; margin-bottom: 0;"></p>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: DIHYBRIDE TERUGKRUISING & ONBEKENDE OUDERS ========== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Dihybride Stap 2: Terugkruising &amp; Onbekende Ouders Bepalen (VWO 4)</h2>
+    <p>Op toetsen krijg je vaak de <strong>fenotype-verhouding van de nakomelingen (F₁)</strong> en moet je terugrekenen naar de genotypen van de ouders (P). Kies een praktijkcasus bij cavia's (<strong>A</strong> = zwart, <strong>a</strong> = wit; <strong>B</strong> = kortharig, <strong>b</strong> = langharig):</p>
+
+    <div class="controls">
+      <div style="width: 100%;">
+        <label for="mysteryCase"><strong>Kies een kruisingscasus:</strong></label><br>
+        <select id="mysteryCase" onchange="loadMysteryCase()" style="width: 100%; max-width: 650px; margin-top: 6px;">
+          <option value="0" selected>Casus 1: De Dihybride Terugkruising (1 : 1 : 1 : 1)</option>
+          <option value="1">Casus 2: Verhouding 3 : 3 : 1 : 1 (Eén eigenschap homozygoot recessief)</option>
+          <option value="2">Casus 3: Verhouding 3 : 1 : 0 : 0 (Alle nakomelingen kortharig)</option>
+          <option value="3">Casus 4: Twee fenotypisch gelijke ouders → 9 : 3 : 3 : 1</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-box" id="mysteryBox" style="margin-bottom: 16px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <p><strong>Welke ouder-kruising (P) hoort bij deze nakomelingen?</strong></p>
+    <div id="mysteryButtons">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+    <p id="fb-mystery" style="font-weight: bold; margin-bottom: 0;"></p>
+
+    <!-- Verdiepingsvraag met veelvoorkomende misvatting -->
+    <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 22px 0;">
+    <p><strong>Toetsvraag (Rekenen met kansen — Productregel): Bij een kruising <em>AaBb × Aabb</em> wil je de kans weten op een witte, langharige cavia (<em>aabb</em>). Hoe bereken je dit het snelst zonder een heel 4×4-schema te tekenen?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di-kans', 'Veelgemaakte fout: bij onafhankelijke gebeurtenissen moet je de losse kansen met elkaar vermenigvuldigen (productregel), niet optellen! (1/4 + 1/2 zou 3/4 zijn, wat veel te hoog is).')">Je splitst het op: kans op aa (1/4) + kans op bb (1/2) = 3/4 (75%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-di-kans', 'Uitstekend! Splits op in twee monohybride kruisingen: Aa × Aa geeft 1/4 kans op aa, en Bb × bb geeft 1/2 kans op bb. Volgens de productregel: 1/4 × 1/2 = 1/8 (12,5%).')">Je splitst het op in twee monohybride kruisingen en vermenigvuldigt de kansen: 1/4 (aa) × 1/2 (bb) = 1/8 (12,5%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-di-kans', 'Niet helemaal. 1/16 geldt alleen bij AaBb × AaBb (waarbij zowel aa als bb een kans van 1/4 hebben: 1/4 × 1/4 = 1/16). Hier is één ouder al homozygoot bb.')">Omdat het een dihybride kruising is, is de kans op het dubbel recessieve fenotype (aabb) altijd standaard 1/16 (6,25%)</button>
+    <p id="fb-di-kans" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ========= MODULE: KENNISCHECK DIHYBRIDE OVERERVING (VWO 4) ========== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Kennischeck: Dihybride Overerving (VWO 4)</h2>
+    <p>Test met deze 6 vragen of je de regels en valkuilen van <strong>dihybride kruisingen</strong> (twee eigenschappen tegelijk) echt beheerst.</p>
+
+    <!-- VRAAG 1: Voorwaarde voor onafhankelijke overerving -->
+    <p style="margin-top: 16px;"><strong>1. (Chromosomen &amp; Meiose) Wanneer ontstaat bij een kruising <em>AaBb × AaBb</em> de bekende fenotype-verhouding <em>9 : 3 : 3 : 1</em>?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb1', 'Veelgemaakte fout: als gen A en gen B dicht bij elkaar op hetzelfde chromosoom liggen (gekoppelde overerving), ontstaan er nauwelijks recombinante gameten en krijg je géén 9 : 3 : 3 : 1.')">Altijd, ongeacht op welke chromosomen de genen A/a en B/b liggen</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb1', 'Uitstekend! Onafhankelijke overerving (en dus 9 : 3 : 3 : 1) treedt alleen op als beide genenparen op verschillende chromosomenparen liggen (of ver uit elkaar op hetzelfde chromosoom).')">Alleen wanneer de genenparen A/a en B/b op verschillende chromosomenparen liggen (onafhankelijke overerving)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb1', 'Nee, bij codominantie of een intermediair fenotype kun je de heterozygoten uiterlijk herkennen, waardoor er meer dan 4 fenotypen ontstaan.')">Alleen wanneer beide eigenschappen een intermediair fenotype hebben</button>
+    <p id="fb-dihyb1" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 2: Aantal verschillende gameten -->
+    <p style="margin-top: 16px;"><strong>2. (Gameten vormen) Hoeveel verschillende typen gameten (geslachtscellen) kan een plant met het genotype <em>AABbCc</em> vormen bij onafhankelijke overerving?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb2', 'Niet helemaal. Je hebt waarschijnlijk 2³ = 8 gerekend, maar voor gen A (AA) is de plant homozygoot en levert hij altijd hetzelfde allel A.')">8 verschillende typen gameten</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb2', 'Let op de misvatting: een gameet krijgt van elk genenpaar één allel (dus bijvoorbeeld ABC of Abc), niet één los allel zoals alleen A of b.')">6 verschillende typen gameten (A, A, B, b, C, c)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb2', 'Helemaal goed! Gebruik 2ⁿ waarbij n het aantal heterozygote genenparen is: AA geeft 1 optie (A), Bb geeft 2 opties (B of b) en Cc geeft 2 opties (C of c) → 1 × 2 × 2 = 4 typen (ABC, ABc, AbC, Abc).')">4 verschillende typen gameten (ABC, ABc, AbC, Abc)</button>
+    <p id="fb-dihyb2" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 3: Rekenen met de productregel (opsplitsen) -->
+    <p style="margin-top: 16px;"><strong>3. (Kansberekening) Bij erwten is geel (G) dominant over groen (g), en rond (R) dominant over gerimpeld (r). Uit de kruising <em>GgRr × Ggrr</em> worden 800 erwten geoogst. Hoeveel erwten zijn naar verwachting <em>groen en rond</em> (<em>ggR_</em>)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb3', 'Scherp opletten! Je hebt de kansen opgeteld (1/4 + 1/2 = 3/4 → 600) in plaats van vermenigvuldigd. Bij onafhankelijke eigenschappen geldt de productregel: 1/4 × 1/2 = 1/8.')">600 erwten (3/4 van 800)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb3', 'Uitstekend! Splits op per eigenschap: Gg × Gg geeft 1/4 kans op groen (gg). Rr × rr geeft 1/2 kans op rond (Rr). Samen: 1/4 × 1/2 = 1/8. En 1/8 van 800 = 100 erwten.')">100 erwten (1/8 van 800)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb3', 'Nee, 1/16 (50 erwten) geldt alleen als beide ouders voor beide eigenschappen heterozygoot zijn (GgRr × GgRr) en je naar ggrr zoekt.')">50 erwten (1/16 van 800)</button>
+    <p id="fb-dihyb3" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 4: Genotype vs Fenotype in een 4x4 schema -->
+    <p style="margin-top: 16px;"><strong>4. (Genotype vs. Fenotype) In een 4×4-kruisingsdiagram van <em>AaBb × AaBb</em> hebben 9 van de 16 vakjes het dominante fenotype (<em>A_B_</em>). Hoeveel van die 9 vakjes zijn <em>dubbel homozygoot dominant</em> (<em>AABB</em>)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb4', 'Klopt! In het hele 4×4-schema komt AABB maar één keer voor (linksboven, bij gameet AB × AB = 1/16). De overige 8 vakjes met fenotype A_B_ zijn AaBB, AABb of AaBb.')">Slechts 1 van de 16 vakjes (1/16)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb4', 'Veelgemaakte fout: 9/16 is het fenotype A_B_ (alle combinaties met minstens één A en één B), niet het genotype AABB.')">Alle 9 vakjes (9/16)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb4', 'Nee, 4/16 (1/4) is het aantal vakjes dat dubbel heterozygoot (AaBb) is (op de diagonaal van het schema).')">4 van de 16 vakjes (4/16)</button>
+    <p id="fb-dihyb4" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 5: Terugrekenen vanuit verhoudingen -->
+    <p style="margin-top: 16px;"><strong>5. (Terugrekenen) Uit een kruising tussen twee tomatenplanten ontstaan nakomelingen in de verhouding <em>3/8 hoog en rood : 3/8 hoog en geel : 1/8 laag en rood : 1/8 laag en geel</em> (hoog = H, laag = h; rood = R, geel = r). Wat zijn de genotypen van de twee ouderplanten?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb5', 'Controleer per eigenschap: bij HhRr × hhrr zou hoog : laag 1 : 1 zijn (4/8 om 4/8), maar hier is hoog : laag 6/8 : 2/8 = 3 : 1.')">HhRr × hhrr</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb5', 'Bij HhRr × HhRr krijg je 9 : 3 : 3 : 1 (dus 9/16 hoog en rood). Hier is rood : geel gelijk aan 4/8 : 4/8 = 1 : 1, dus één ouder moet rr zijn.')">HhRr × HhRr</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb5', 'Helemaal goed! Hoog : laag = 6/8 : 2/8 = 3 : 1 → Hh × Hh. Rood : geel = 4/8 : 4/8 = 1 : 1 → Rr × rr. Samen geeft dat HhRr × Hhrr!')">HhRr × Hhrr</button>
+    <p id="fb-dihyb5" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 6: Dihybride met intermediair fenotype -->
+    <p style="margin-top: 16px;"><strong>6. (Verdieping — Combinatie met intermediair fenotype) Bij Leeuwenbekjes is hoog (<em>H</em>) volledig dominant over laag (<em>h</em>), maar bloemkleur is <em>intermediair</em>: <em>C<sup>R</sup>C<sup>R</sup></em> = rood, <em>C<sup>R</sup>C<sup>W</sup></em> = roze, <em>C<sup>W</sup>C<sup>W</sup></em> = wit. Hoeveel verschillende <em>fenotypen</em> ontstaan er bij de kruising <em>HhC<sup>R</sup>C<sup>W</sup> × HhC<sup>R</sup>C<sup>W</sup></em>?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb6', '4 fenotypen ontstaat alleen als beide eigenschappen volledig dominant zijn. Omdat bloemkleur 3 fenotypen heeft (rood, roze, wit), zijn er meer combinaties mogelijk.')">4 verschillende fenotypen (in de verhouding 9 : 3 : 3 : 1)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-dihyb6', 'Uitstekend! Hoogte geeft 2 fenotypen (hoog en laag) en bloemkleur geeft 3 fenotypen (rood, roze, wit). Samen levert dat 2 × 3 = 6 verschillende fenotypen op!')">6 verschillende fenotypen (hoog/laag gecombineerd met rood/roze/wit)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-dihyb6', '9 is het aantal verschillende genotypen (3 × 3), maar omdat H volledig dominant is over h, zie je het verschil tussen HH en Hh niet aan de buitenkant.')">9 verschillende fenotypen</button>
+    <p id="fb-dihyb6" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+
+
+  <!-- MODULE: GEKOPPELDE OVERERVING -->
+  <section class="card">
+    <h2>Gekoppelde Overerving & Recombinatie</h2>
+    <p>Wanneer twee genen (<strong>A/a</strong> en <strong>B/b</strong>) op <strong>hetzelfde chromosomenpaar</strong> liggen, spreken we van <em>gekoppelde genen</em>. We testen een terugkruising: <strong>AaBb × aabb</strong>, waarbij bij Ouder 1 <strong>A en B gekoppeld</strong> op één chromosoom liggen, en <strong>a en b</strong> op het homologe chromosoom.</p>
+
+    <div class="controls">
+      <div>
+        <label for="recombKans"><strong>Mate van crossing-over (recombinatie):</strong></label><br>
+        <select id="recombKans" onchange="berekenGekoppeld()">
+          <option value="0" selected>0% (Volledige koppeling, geen crossing-over)</option>
+          <option value="20">20% recombinatie (Genen liggen dicht bij elkaar)</option>
+          <option value="50">50% (Onafhankelijke overerving ter vergelijking)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-box" id="gekoppeldUitslag"></div>
+
+    <p style="margin-top: 16px;"><strong>Controlevraag: Uit een kruising AaBb × aabb ontstaan 45% zwart-kortharig, 45% wit-langharig, 5% zwart-langharig en 5% wit-kortharig. Welke allelen lagen bij de AaBb-ouder samen op één chromosoom?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-gek', 'Goed! De grootste groepen (45% en 45%) zijn de ouderlijke typen (AB en ab). De kleinste groepen (5% en 5%) zijn ontstaan door crossing-over.')">A en B op één chromosoom, a en b op het andere</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-gek', 'Niet helemaal. Als A en b gekoppeld waren, zouden zwart-langharig en wit-kortharig juist de grootste groepen zijn.')">A en b op één chromosoom, a en B op het andere</button>
+    <p id="fb-gek" style="font-weight:bold;"></p>
+  </section>
+
+  <!-- MODULE: STAMBOOMONDERZOEK — CASUS DE FAMILIE DE VRIES (HAARGRENS) -->
+  <section class="card">
+    <h2>Casus Stamboomonderzoek: De Haargrens van de Familie De Vries</h2>
+    <p>Bij mensen komt een zogeheten <strong>weduwenpunt</strong> (<em>widow's peak</em>) voor: een V-vormige punt van het haar midden op het voorhoofd. Andere mensen hebben een rechte haargrens. Biologen onderzoeken hoe deze eigenschap overerft binnen de familie De Vries.</p>
+    <p>Bekijk de stamboom hieronder. Vierkantjes zijn mannen, rondjes zijn vrouwen. <strong>Ingekleurde symbolen</strong> hebben een V-vormige haargrens; <strong>witte symbolen</strong> hebben een rechte haargrens.</p>
+
+    <div style="text-align: center; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 16px;">
+      <svg width="360" height="210" viewBox="0 0 360 210">
+        <!-- Generatie I (Ouders: beiden ingekleurd / V-vormige haargrens) -->
+        <text x="10" y="45" font-size="14" font-weight="bold" fill="#64748b">I</text>
+        <rect x="110" y="20" width="36" height="36" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="128" y="72" font-size="12" text-anchor="middle">1</text>
+
+        <line x1="146" y1="38" x2="214" y2="38" stroke="#1e293b" stroke-width="2"/>
+
+        <circle cx="232" cy="38" r="18" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="232" y="72" font-size="12" text-anchor="middle">2</text>
+
+        <!-- Verbindingslijn naar Generatie II -->
+        <line x1="180" y1="38" x2="180" y2="100" stroke="#1e293b" stroke-width="2"/>
+        <line x1="90" y1="100" x2="270" y2="100" stroke="#1e293b" stroke-width="2"/>
+
+        <!-- Generatie II (Kinderen: II-1 V-vormige haargrens, II-2 en II-3 rechte haargrens) -->
+        <text x="10" y="155" font-size="14" font-weight="bold" fill="#64748b">II</text>
+
+        <line x1="90" y1="100" x2="90" y2="130" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="90" cy="148" r="18" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="90" y="182" font-size="12" text-anchor="middle">1</text>
+
+        <line x1="180" y1="100" x2="180" y2="130" stroke="#1e293b" stroke-width="2"/>
+        <rect x="162" y="130" width="36" height="36" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="180" y="182" font-size="12" text-anchor="middle">2</text>
+
+        <line x1="270" y1="100" x2="270" y2="130" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="270" cy="148" r="18" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="270" y="182" font-size="12" text-anchor="middle">3</text>
+      </svg>
+      <div style="font-size: 0.85rem; color: #64748b;">
+        ■ / ● = V-vormige haargrens (weduwenpunt) &nbsp;&nbsp;|&nbsp;&nbsp; □ / ○ = Rechte haargrens
+      </div>
+    </div>
+
+    <!-- VRAAG 1: BASIS (Dominant vs. Recessief bewijzen met de casus) -->
+    <p><strong>Vraag 1 (Basis — Overerving bepalen): Moeder (I-2) denkt dat een rechte haargrens dominant is, omdat twee van haar drie kinderen (II-2 en II-3) een rechte haargrens hebben. Klopt haar redenering op basis van de stamboom?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom1', 'Valkuil! Dominant betekent niet dat het kenmerk het vaakst voorkomt in een klein gezin. Als een rechte haargrens dominant was, zou minstens één van de ouders ook een rechte haargrens moeten hebben.')">Ja, want in Generatie II komt de rechte haargrens vaker voor (2 tegen 1) dan de V-vormige haargrens</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-stamboom1', 'Uitstekend! Ouders I-1 en I-2 hebben allebei een V-vormige haargrens, maar krijgen kinderen (II-2 en II-3) met een rechte haargrens. Beide ouders moeten dus het recessieve allel voor een rechte haargrens verborgen bij zich dragen (Aa × Aa). De V-vormige haargrens is daarom dominant.')">Nee, de V-vormige haargrens is dominant: beide ouders hebben het kenmerk, maar dragen allebei het recessieve allel voor een rechte haargrens bij zich </button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom1', 'Let op! Als de V-vormige haargrens recessief was (aa), zouden beide ouders homozygoot recessief (aa × aa) zijn en zouden ál hun kinderen ook een V-vormige haargrens moeten hebben.')">Nee, de V-vormige haargrens is recessief, omdat het kenmerk bij twee van de drie kinderen wordt overgeslagen</button>
+    <p id="fb-stamboom1" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 2: VERDIEPING (Genotype & Kansberekening in de casus) -->
+    <p style="margin-top: 16px;"><strong>Vraag 2 (Verdieping — Genotype &amp; Kansberekening): Dochter II-1 heeft net als haar ouders een V-vormige haargrens. Zij krijgt later een kind met een man die een rechte haargrens heeft. Hoe groot is de kans dat hun eerste kind een rechte haargrens krijgt?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom2', 'Niet helemaal. Je weet niet zeker of dochter II-1 homozygoot dominant (AA) of heterozygoot (Aa) is — beide genotypen geven immers een V-vormige haargrens.')">Precies 50%, omdat dochter II-1 zeker weten heterozygoot (Aa) is net als haar ouders</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom2', 'Nee, als II-1 heterozygoot (Aa) is, kan zij wél het recessieve allel (a) doorgeven aan haar kind samen met het a-allel van de vader.')">0%, omdat een V-vormige haargrens dominant is en de vader geen dominante allelen bezit</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-stamboom2', 'Helemaal juist! Uit de kruising van de ouders (Aa × Aa) kan dochter II-1 zowel AA (1/3 kans onder de kinderen met V-vormige haargrens) als Aa (2/3 kans) zijn. Als ze AA is, is de kans 0%; als ze Aa is, is de kans 50%.')">Dat is niet met één vast percentage te zeggen, omdat dochter II-1 zowel AA (0% kans) als Aa (50% kans) kan zijn</button>
+    <p id="fb-stamboom2" style="font-weight:bold;"></p>
+  </section>
+
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: STAMBOOM ANALYSE & OVERERVING AFLEIDEN ============== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Stamboomanalyse: Wijze van Overerving Afleiden (VWO 4)</h2>
+    <p>Bestudeer de stamboom hieronder. Volg het vaste VWO-stappenplan: zoek naar <strong>sleutelgezinnen</strong> (bijv. twee ouders met hetzelfde fenotype die een kind met het <em>andere</em> fenotype krijgen) om het type overerving te bewijzen.</p>
+
+    <div class="controls" style="align-items: center; justify-content: space-between;">
+      <div>
+        <label for="stamboomSelect"><strong>Kies een stamboomcasus:</strong></label><br>
+        <select id="stamboomSelect" onchange="laadStamboom()" style="margin-top: 6px;">
+          <option value="0" selected>Stamboom 1: Sleutelgezin met dochter (I-1 &amp; I-2 → II-2)</option>
+          <option value="1">Stamboom 2: Eigenschap in elke generatie (I-1 &amp; I-2 → II-3)</option>
+          <option value="2">Stamboom 3: Vooral mannen aangedaan (I-1 &amp; I-2 → II &amp; III)</option>
+        </select>
+      </div>
+      <div style="font-size: 0.88rem; background: #ffffff; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
+        <strong>Legenda (BiNaS):</strong><br>
+        ⬜ Man zonder eigenschap &nbsp;|&nbsp; ⬛ Man met eigenschap<br>
+        ⚪ Vrouw zonder eigenschap &nbsp;|&nbsp; ⚫ Vrouw met eigenschap
+      </div>
+    </div>
+
+    <!-- SVG Stamboom Container -->
+    <div id="stamboomCanvas" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; margin: 16px 0; text-align: center;">
+      <!-- Wordt getekend door JavaScript -->
+    </div>
+
+    <div class="summary-box" id="stamboomHint" style="margin-bottom: 16px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- Stap 1: Type overerving bepalen -->
+    <p><strong>Stap 1: Hoe erft deze eigenschap over?</strong></p>
+    <div id="stamboomStap1Buttons"></div>
+    <p id="fb-stamboom1" style="font-weight: bold;"></p>
+
+    <!-- Stap 2: Genotype van een individu bepalen -->
+    <p style="margin-top: 16px;"><strong id="stamboomStap2Vraag">Stap 2: Wat is het genotype?</strong></p>
+    <div id="stamboomStap2Buttons"></div>
+    <p id="fb-stamboom2" style="font-weight: bold; margin-bottom: 0;"></p>
+  </section>
+
+
+
+
+  <!-- MODULE: STAMBOOMONDERZOEK (3 GENERATIES) -->
+  <section class="card">
+    <h2>Stamboomonderzoek (3 Generaties): Overerving in een Familie</h2>
+    <p>Bekijk deze stamboom van drie generaties. Generatie I krijgt 5 kinderen. Twee van deze kinderen (II-1 en II-4) stichten een gezin en krijgen samen 3 kleinkinderen in Generatie III.</p>
+
+    <div style="overflow-x: auto; text-align: center; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 16px;">
+      <svg width="700" height="310" viewBox="0 0 700 310">
+        <!-- ==================== GENERATIE I ==================== -->
+        <text x="15" y="45" font-size="14" font-weight="bold" fill="#64748b">I</text>
+        
+        <!-- Ouders I-1 (Man, niet aangedaan) en I-2 (Vrouw, niet aangedaan) -->
+        <rect x="290" y="20" width="32" height="32" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="306" y="66" font-size="12" text-anchor="middle">1</text>
+
+        <line x1="322" y1="36" x2="378" y2="36" stroke="#1e293b" stroke-width="2"/>
+
+        <circle cx="394" cy="36" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="394" y="66" font-size="12" text-anchor="middle">2</text>
+
+        <!-- Lijn naar Generatie II (5 kinderen) -->
+        <line x1="350" y1="36" x2="350" y2="95" stroke="#1e293b" stroke-width="2"/>
+	<line x1="120" y1="95" x2="620" y2="95" stroke="#1e293b" stroke-width="2"/>
+
+
+        <!-- ==================== GENERATIE II ==================== -->
+        <text x="15" y="145" font-size="14" font-weight="bold" fill="#64748b">II</text>
+
+        <!-- Kind II-1 (Man, niet aangedaan) + Partner II-2 (Vrouw, aangedaan) -->
+        <line x1="120" y1="95" x2="120" y2="120" stroke="#1e293b" stroke-width="2"/>
+        <rect x="104" y="120" width="32" height="32" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="120" y="166" font-size="12" text-anchor="middle">1</text>
+
+        <!-- Partner van II-1 -->
+        <line x1="136" y1="136" x2="174" y2="136" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="190" cy="136" r="16" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="190" y="166" font-size="12" text-anchor="middle">2</text>
+
+        <!-- Kind II-3 (Vrouw, aangedaan) -->
+        <line x1="260" y1="95" x2="260" y2="120" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="260" cy="136" r="16" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="260" y="166" font-size="12" text-anchor="middle">3</text>
+
+        <!-- Kind II-4 (Man, niet aangedaan) -->
+        <line x1="350" y1="95" x2="350" y2="120" stroke="#1e293b" stroke-width="2"/>
+        <rect x="334" y="120" width="32" height="32" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="350" y="166" font-size="12" text-anchor="middle">4</text>
+
+        <!-- Kind II-5 (Vrouw, niet aangedaan) + Partner II-6 (Man, niet aangedaan) -->
+        <line x1="460" y1="95" x2="460" y2="120" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="460" cy="136" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="460" y="166" font-size="12" text-anchor="middle">5</text>
+
+        <!-- Partner van II-5 -->
+        <line x1="476" y1="136" x2="514" y2="136" stroke="#1e293b" stroke-width="2"/>
+        <rect x="514" y="120" width="32" height="32" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="530" y="166" font-size="12" text-anchor="middle">6</text>
+
+        <!-- Kind II-7 (Man, niet aangedaan) -->
+        <<line x1="620" y1="95" x2="620" y2="120" stroke="#1e293b" stroke-width="2"/>
+	<rect x="604" y="120" width="32" height="32" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+	<text x="620" y="166" font-size="12" text-anchor="middle">7</text>
+
+        <!-- ==================== GENERATIE III ==================== -->
+        <text x="15" y="245" font-size="14" font-weight="bold" fill="#64748b">III</text>
+
+        <!-- Gezin 1 (II-1 & II-2) krijgt 2 kinderen: III-1 (aangedaan) en III-2 (niet aangedaan) -->
+        <line x1="155" y1="136" x2="155" y2="195" stroke="#1e293b" stroke-width="2"/>
+        <line x1="115" y1="195" x2="195" y2="195" stroke="#1e293b" stroke-width="2"/>
+
+        <line x1="115" y1="195" x2="115" y2="220" stroke="#1e293b" stroke-width="2"/>
+        <rect x="99" y="220" width="32" height="32" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="115" y="266" font-size="12" text-anchor="middle">1</text>
+
+        <line x1="195" y1="195" x2="195" y2="220" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="195" cy="236" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="2"/>
+        <text x="195" y="266" font-size="12" text-anchor="middle">2</text>
+
+        <!-- Gezin 2 (II-5 & II-6) krijgt 1 kind: III-3 (aangedaan) -->
+        <line x1="495" y1="136" x2="495" y2="220" stroke="#1e293b" stroke-width="2"/>
+        <circle cx="495" cy="236" r="16" fill="#1b6ca8" stroke="#1e293b" stroke-width="2"/>
+        <text x="495" y="266" font-size="12" text-anchor="middle">3</text>
+      </svg>
+      <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px;">
+        ■ / ● = Eigenschap aanwezig &nbsp;&nbsp;|&nbsp;&nbsp; □ / ○ = Eigenschap afwezig
+      </div>
+    </div>
+
+    <p><strong>Vraag 1: Is deze erfelijke eigenschap dominant of recessief?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom3-1', 'Niet helemaal. Kijk naar ouders I-1 en I-2 (of II-5 en II-6): zij hebben de eigenschap niet, maar krijgen wel een kind met de eigenschap.')">Dominant</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-stamboom3-1', 'Goed! Ouders I-1 en I-2 (en ook II-5 en II-6) hebben de eigenschap zelf niet, maar zijn allebei drager (Aa) en geven het recessieve allel (a) door aan hun kind.')">Recessief</button>
+    <p id="fb-stamboom3-1" style="font-weight:bold;"></p>
+
+    <p><strong>Vraag 2: Wat is het genotype van persoon II-1?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom3-2', 'Nee, als II-1 AA was, kon hij geen kind met de eigenschap (III-1, aa) krijgen.')">AA (Homozygoot dominant)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-stamboom3-2', 'Goed! II-1 heeft de eigenschap zelf niet (dus minstens één A), maar krijgt met II-2 (aa) een kind III-1 met de eigenschap (aa). II-1 moet dus Aa zijn.')">Aa (Heterozygoot)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-stamboom3-2', 'Nee, het symbool van II-1 is niet ingekleurd, dus hij heeft het recessieve fenotype niet.')">aa (Homozygoot recessief)</button>
+    <p id="fb-stamboom3-2" style="font-weight:bold;"></p>
+  </section>
+
+  <!-- MODULE: X-CHROMOSOMALE OVERERVING -->
+  <section class="card">
+    <h2>X-Chromosomale Overerving: Rood-Groen Kleurenblindheid</h2>
+    <p>Sommige genen liggen alleen op het <strong>X-chromosoom</strong> en niet op het veel kleinere Y-chromosoom. Bij rood-groen kleurenblindheid is het allel voor normaal kleurenzien (<strong>X<sup>D</sup></strong>) dominant over het allel voor kleurenblindheid (<strong>X<sup>d</sup></strong>). Mannen hebben maar één X-chromosoom (<strong>X<sup>D</sup>Y</strong> of <strong>X<sup>d</sup>Y</strong>) en kunnen dus nooit drager zijn.</p>
+
+    <div class="controls">
+      <div>
+        <label for="xVader"><strong>Vader (♂):</strong></label><br>
+        <select id="xVader" onchange="berekenXChromosomaal()">
+          <option value="DY" selected>XᴰY (Normaal zicht)</option>
+          <option value="dY">XᵈY (Kleurenblind)</option>
+        </select>
+      </div>
+      <div>
+        <label for="xMoeder"><strong>Moeder (♀):</strong></label><br>
+        <select id="xMoeder" onchange="berekenXChromosomaal()">
+          <option value="DD">XᴰXᴰ (Normaal zicht, homozygoot)</option>
+          <option value="Dd" selected>XᴰXᵈ (Normaal zicht, draagster)</option>
+          <option value="dd">XᵈXᵈ (Kleurenblind)</option>
+        </select>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Gameten</th>
+        <th id="xg1a">Xᴰ</th>
+        <th id="xg1b">Y</th>
+      </tr>
+      <tr>
+        <th id="xg2a">Xᴰ</th>
+        <td id="xvak1">XᴰXᴰ<span class="feno">Dochter (normaal zicht)</span></td>
+        <td id="xvak2">XᴰY<span class="feno">Zoon (normaal zicht)</span></td>
+      </tr>
+      <tr>
+        <th id="xg2b">Xᵈ</th>
+        <td id="xvak3">XᴰXᵈ<span class="feno">Dochter (draagster)</span></td>
+        <td id="xvak4">XᵈY<span class="feno">Zoon (kleurenblind)</span></td>
+      </tr>
+    </table>
+
+    <div class="summary-box" id="xUitslag">
+      <strong>Verwachte nakomelingen (F1):</strong> 50% van de zonen kleurenblind (25% totaal) • 0% van de dochters kleurenblind
+    </div>
+
+    <p style="margin-top: 16px;"><strong>Vraag 1 (Basis): Een kleurenblinde vader (X<sup>d</sup>Y) en een homozygoot niet-kleurenblinde moeder (X<sup>D</sup>X<sup>D</sup>) krijgen een zoon. Hoe groot is de kans dat deze zoon kleurenblind is?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-x1', 'Goed! Een zoon erft zijn Y-chromosoom van zijn vader en zijn enige X-chromosoom van zijn moeder (Xᴰ). Hij wordt dus XᴰY en heeft normaal zicht.')">0%</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-x1', 'Niet helemaal. Van wie krijgt een jongen zijn Y-chromosoom, en van wie krijgt hij zijn X-chromosoom?')">50%</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-x1', 'Nee, een vader geeft een X-chromosoom alleen door aan zijn dochters, nooit aan zijn zonen.')">100%</button>
+    <p id="fb-x1" style="font-weight:bold;"></p>
+
+    <p style="margin-top: 16px;"><strong>Vraag 2 (Verdieping): Een vrouw met normaal kleurenzien heeft een kleurenblinde vader. Zij krijgt een kind met een man die normaal kleurenzien heeft. Hoe groot is de kans dat hun kind een kleurenblinde jongen is?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-x2', 'Let op de formulering: gevraagd wordt naar de kans op een kleurenblinde JONGEN van alle mogelijke kinderen (dus niet alleen onder de zonen).')">50% (1 op 2)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-x2', 'Uitstekend! De vrouw heeft het Xᵈ-allel van haar vader geërfd en is dus draagster (XᴰXᵈ). Bij XᴰXᵈ × XᴰY zijn er vier gelijke mogelijkheden: XᴰXᴰ, XᴰXᵈ, XᴰY en XᵈY. Slechts 1 van de 4 (25%) is een kleurenblinde jongen (XᵈY).')">25% (1 op 4)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-x2', 'Niet helemaal. Omdat de vader van de vrouw kleurenblind was (XᵈY), moet zij wel zijn Xᵈ-chromosoom hebben gekregen en is zij dus draagster (XᴰXᵈ).')">0%</button>
+    <p id="fb-x2" style="font-weight:bold;"></p>
+  </section>
+
+
+  <!-- MODULE: MEERDERE ALLELEN (BLOEDGROEPEN) -->
+  <section class="card">
+    <h2>Kruisingsdiagram: Meerdere Allelen (ABO-bloedgroepen)</h2>
+    <p>Bij het ABO-bloedgroepsysteem zijn er drie allelen: <strong>I<sup>A</sup></strong> en <strong>I<sup>B</sup></strong> (codominant) en <strong>i</strong> (recessief). Kies de genotypen van de ouders:</p>
+
+    <div class="controls">
+      <div>
+        <label for="bloedOuder1"><strong>Ouder 1 (♂):</strong></label><br>
+        <select id="bloedOuder1" onchange="berekenBloedgroep()">
+          <option value="AA">IᴬIᴬ (Bloedgroep A)</option>
+          <option value="Ai" selected>Iᴬi (Bloedgroep A)</option>
+          <option value="BB">IᴮIᴮ (Bloedgroep B)</option>
+          <option value="Bi">Iᴮi (Bloedgroep B)</option>
+          <option value="AB">IᴬIᴮ (Bloedgroep AB)</option>
+          <option value="ii">ii (Bloedgroep O)</option>
+        </select>
+      </div>
+      <div>
+        <label for="bloedOuder2"><strong>Ouder 2 (♀):</strong></label><br>
+        <select id="bloedOuder2" onchange="berekenBloedgroep()">
+          <option value="AA">IᴬIᴬ (Bloedgroep A)</option>
+          <option value="Ai">Iᴬi (Bloedgroep A)</option>
+          <option value="BB">IᴮIᴮ (Bloedgroep B)</option>
+          <option value="Bi" selected>Iᴮi (Bloedgroep B)</option>
+          <option value="AB">IᴬIᴮ (Bloedgroep AB)</option>
+          <option value="ii">ii (Bloedgroep O)</option>
+        </select>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Gameten</th>
+        <th id="bg1a">Iᴬ</th>
+        <th id="bg1b">i</th>
+      </tr>
+      <tr>
+        <th id="bg2a">Iᴮ</th>
+        <td id="bvak1">IᴬIᴮ<span class="feno">Bloedgroep AB</span></td>
+        <td id="bvak2">Iᴮi<span class="feno">Bloedgroep B</span></td>
+      </tr>
+      <tr>
+        <th id="bg2b">i</th>
+        <td id="bvak3">Iᴬi<span class="feno">Bloedgroep A</span></td>
+        <td id="bvak4">ii<span class="feno">Bloedgroep O</span></td>
+      </tr>
+    </table>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ======= MODULE: GENETISCHE NOTATIES HERKENNEN & BEGRIJPEN =========== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Genetische Notaties Herkennen (VWO 4 Overzicht)</h2>
+    <p>In de genetica verraadt de <strong>schrijfwijze (notatie)</strong> van het genotype vaak al hoe een eigenschap overerft. Koppel elke onderstaande notatie aan het juiste type overerving of chromosomenbeeld:</p>
+
+    <div id="notatie-quiz" style="display: flex; flex-direction: column; gap: 12px; margin: 18px 0;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="quiz-btn" onclick="checkNotaties()" style="width: auto; font-weight: bold; background: #1b6ca8; color: white;">Controleer notaties</button>
+      <button type="button" class="quiz-btn" onclick="initNotatieQuiz()" style="width: auto;">Opnieuw husselen</button>
+    </div>
+    <p id="fb-notaties" style="font-weight: bold; margin-bottom: 0;"></p>
+  </section>
+
+<
+<!-- ===================================================================== -->
+<!-- ======= MODULE: CROSSING-OVER BASIS (MEIOSE & RECOMBINATIE) ========= -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Crossing-Over (Basis): Wat Gebeurt er Tijdens de Meiose?</h2>
+    <p>Wanneer twee genen (<strong>A/a</strong> en <strong>B/b</strong>) op <strong>hetzelfde chromosomenpaar</strong> liggen (notatie: <em>AB // ab</em>), blijven ze meestal bij elkaar. Maar tijdens <strong>profase I van de meiose</strong> kunnen chromatiden stukjes DNA uitwisselen: <strong>crossing-over</strong>.</p>
+
+    <!-- Interactieve Knoppen voor Visualisatie -->
+    <div class="controls" style="justify-content: center; gap: 12px;">
+      <button type="button" class="quiz-btn" onclick="tekenCrossingOver(false)" style="width: auto; margin-bottom: 0; font-weight: bold; background: #1b6ca8; color: white;">1. Zonder crossing-over (2 typen gameten)</button>
+      <button type="button" class="quiz-btn" onclick="tekenCrossingOver(true)" style="width: auto; margin-bottom: 0; font-weight: bold; background: #0f766e; color: white;">2. Met crossing-over (4 typen gameten)</button>
+    </div>
+
+    <!-- SVG Chromosomen Schema -->
+    <div id="co-canvas" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; margin: 14px 0; text-align: center;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <div class="summary-box" id="co-uitleg" style="margin-bottom: 18px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- VRAAG 1: Wanneer in de celcyclus -->
+    <p><strong>1. (Meiose) Tijdens welke fase van de meiose vindt crossing-over plaats, en tussen welke structuren gebeurt dit?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co1', 'Niet helemaal. Tussen twee zusterchromatiden van hetzelfde chromosoom zitten identieke allelen (bijv. twee keer A en B), dus uitwisseling daartussen levert geen nieuwe combinaties op.')">Tijdens de anafase I, tussen twee zusterchromatiden van één verdubbeld chromosoom</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co1', 'Uitstekend! In profase I liggen homologe chromosomen (één van vader, één van moeder) als bivalent strak tegen elkaar aan. Dan kunnen niet-zusterchromatiden stukjes uitwisselen.')">Tijdens de profase I, tussen twee niet-zusterchromatiden van een homoloog chromosomenpaar</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co1', 'Let op de misvatting: crossing-over vindt alleen plaats tussen homologe chromosomen (bijv. paar 4 met paar 4), niet tussen twee totaal verschillende chromosomenparen.')">Tijdens de meiose II, tussen chromosomen van twee verschillende chromosomenparen</button>
+    <p id="fb-co1" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 2: Ouder-gameten vs Recombinante gameten -->
+    <p style="margin-top: 16px;"><strong>2. (Nieuwe combinaties) Een organisme heeft het gekoppelde genotype <em>AB // ab</em>. Welke gameten zijn door crossing-over ontstane <em>recombinante gameten</em>?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2', 'Nee, AB en ab zijn de oorspronkelijke combinaties zoals ze op de chromosomen van de ouders lagen (ouder-gameten).')">AB en ab</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co2', 'Helemaal goed! Door crossing-over worden B en b verwisseld, waardoor de nieuwe (recombinante) combinaties Ab en aB ontstaan.')">Ab en aB</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2', 'Let op: bij meiose worden homologe chromosomen altijd gescheiden, dus een gameet krijgt nooit twee allelen van hetzelfde gen (zoals Aa of Bb).')">Aa en Bb</button>
+    <p id="fb-co2" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 3: Waarom zijn er altijd minder recombinante gameten -->
+    <p style="margin-top: 16px;"><strong>3. (Inzicht) Waarom ontstaan er bij gekoppelde genen in totaal altijd <em>meer ouder-gameten</em> (AB en ab) dan <em>recombinante gameten</em> (Ab en aB)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co3', 'Klopt! Crossing-over treedt niet bij elke meiose precies tussen gen A en gen B op, en bovendien doen bij een crossing-over maar 2 van de 4 chromatiden mee.')">Omdat crossing-over niet tijdens elke meiose precies tussen gen A en B plaatsvindt, en slechts 2 van de 4 chromatiden meedoen</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co3', 'Nee, recombinante gameten zijn net zo levensvatbaar en vruchtbaar als ouder-gameten.')">Omdat recombinante gameten (Ab en aB) meestal afsterven vóór de bevruchting</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co3', 'Niet helemaal. Als een organisme 4 chromatiden heeft na DNA-replicatie, ontstaan uit elke meiose 4 haploïde gameten.')">Omdat bij crossing-over de helft van de chromosomen verloren gaat</button>
+    <p id="fb-co3" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- ==== MODULE: CROSSING-OVER 2 (RECOMBINATIEPERCENTAGE & GENKAART) ==== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <  <section class="card">
+    <h2>Crossing-Over (Verdieping): Recombinatiepercentage &amp; Chromosoomkaart</h2>
+    <p>Tijdens de meiose kunnen chromosomen stukjes DNA uitwisselen (<strong>crossing-over</strong>). Maar hoe weten biologen eigenlijk op welke plek een gen op een chromosoom ligt? Daarvoor gebruiken ze een slimme truc met kruisingen!</p>
+
+    <!-- Duidelijke uitlegbox voor VWO 4 (Centimorgan & Terugkruising) -->
+    <div style="background: #eef2ff; border-left: 4px solid #1b6ca8; padding: 14px 18px; border-radius: 8px; margin-bottom: 18px;">
+      <strong style="color: #1b6ca8; font-size: 1.02rem;">📖 Hoe meet je afstanden op een chromosoom?</strong>
+      <ul style="margin: 8px 0 0 18px; padding: 0; line-height: 1.65;">
+        <li><strong>Afstand = kans op crossing-over:</strong> Liggen twee genen (<em>A</em> en <em>B</em>) vlak naast elkaar op hetzelfde chromosoom? Dan breken ze bijna nooit tussen elkaar door. Liggen ze ver uit elkaar? Dan is de ruimte ertussen groot en gebeurt er vaker een crossing-over.</li>
+        <li><strong>Recombinatiepercentage:</strong> Het percentage nakomelingen dat een <em>nieuwe</em> (recombinante) combinatie van allelen heeft gekregen (dus <code>Ab</code> of <code>aB</code> in plaats van de oorspronkelijke <code>AB</code> of <code>ab</code>).</li>
+        <li><strong>Wat is een centimorgan (cM)?</strong> Biologen hebben afgesproken om het recombinatiepercentage direct als afstandsmaat op het chromosoom te gebruiken: <strong>1% recombinatie = 1 centimorgan (1 cM)</strong> (vernoemd naar de geneticus Thomas Hunt Morgan). Bij 18% recombinatie liggen twee genen dus op <strong>18 cM</strong> afstand van elkaar.</li>
+        <li><strong>Waarom een terugkruising (<em>AB // ab × ab // ab</em>)?</strong> Omdat de tweede ouder alleen recessieve allelen (<code>ab</code>) doorgeeft, kun je aan het uiterlijk van de nakomelingen direct aflezen welke gameet de eerste ouder heeft gemaakt!</li>
+      </ul>
+    </div>
+
+    <!-- Interactieve Afstand-Simulator -->
+    <div class="controls" style="flex-direction: column; gap: 10px;">
+      <label for="coAfstandSlider"><strong>Schuif de afstand tussen gen A en gen B op het chromosoom:</strong> <span id="coAfstandLabel" style="color: #1b6ca8; font-size: 1.1rem;">20 cM (20% recombinatie)</span></label>
+      <input type="range" id="coAfstandSlider" min="0" max="50" step="2" value="20" oninput="updateCOAfstand()" style="width: 100%; cursor: pointer;">
+    </div>
+
+    <!-- Visuele Chromosoombalk + Nakomelingenverdeling -->
+    <div id="co-kaart-canvas" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; margin: 14px 0; text-align: center;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <div class="summary-box" id="co-kaart-uitslag" style="margin-bottom: 18px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- VRAAG 1: Recombinatiepercentage berekenen uit aantallen -->
+    <p><strong>1. (Rekenen met cM) Bij fruitvliegjes zijn grijze lichaamskleur (<em>G</em>) en normale vleugels (<em>V</em>) dominant over zwart (<em>g</em>) en vleugelloos (<em>v</em>). Uit een terugkruising <em>GV // gv × gv // gv</em> ontstaan 1000 nakomelingen:<br>
+    • 410 grijs, normale vleugels (<em>GV // gv</em> — oudertype)<br>
+    • 410 zwart, vleugelloos (<em>gv // gv</em> — oudertype)<br>
+    • 90 grijs, vleugelloos (<em>Gv // gv</em> — nieuw door crossing-over)<br>
+    • 90 zwart, normale vleugels (<em>gV // gv</em> — nieuw door crossing-over)<br>
+    Wat is het recombinatiepercentage, en hoeveel centimorgan (cM) liggen gen G en gen V dus uit elkaar?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-1', 'Niet helemaal. 9% is maar één van de twee recombinante groepen (90 van de 1000). Tel beide nieuwe groepen bij elkaar op!')">9% recombinatie (afstand = 9 cM)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co2-1', 'Uitstekend! De twee nieuwe groepen (recombinanten) zijn Gv (90) en gV (90). Samen is dat 180 van de 1000 nakomelingen = 18% recombinatie. Omdat 1% = 1 cM, liggen de genen op 18 cM afstand.')">18% recombinatie (afstand = 18 cM)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-1', 'Let op: 82% (820 van de 1000) is het percentage oudertypen (GV en gv) waarbij géén crossing-over heeft plaatsgevonden.')">82% recombinatie (afstand = 82 cM)</button>
+    <p id="fb-co2-1" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 2: Chromosoomkaart opstellen met 3 genen -->
+    <p style="margin-top: 16px;"><strong>2. (Chromosoomkaart tekenen) Drie genen (<em>A</em>, <em>B</em> en <em>C</em>) liggen op hetzelfde chromosoom. Uit kruisingsexperimenten zijn de onderlinge afstanden gemeten:<br>
+    • Afstand tussen A en B: 28 cM (28% recombinatie)<br>
+    • Afstand tussen B en C: 10 cM (10% recombinatie)<br>
+    • Afstand tussen A en C: 18 cM (18% recombinatie)<br>
+    In welke volgorde liggen deze drie genen naast elkaar op het chromosoom?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-2', 'Controleer de som van de afstanden: als B in het midden ligt (A — B — C), zou de totale afstand tussen A en C gelijk zijn aan 28 + 10 = 38 cM, niet 18 cM.')">A — B — C</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co2-2', 'Helemaal goed! De grootste afstand (28 cM) ligt tussen de twee buitenste genen A en B. Gen C ligt daar precies tussenin: 18 cM (A–C) + 10 cM (C–B) = 28 cM.')">A — C — B</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-2', 'Als A in het midden lag (B — A — C), zou de totale afstand tussen B en C gelijk zijn aan 28 + 18 = 46 cM.')">B — A — C</button>
+    <p id="fb-co2-2" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 3: Cis- vs Trans-koppeling (VWO examenvalkuil) -->
+    <p style="margin-top: 16px;"><strong>3. (VWO-valkuil — Afstoting / <em>Trans</em>-koppeling) Een plant heeft het genotype <em>Ab // aB</em> (het dominante allel <em>A</em> ligt samen met het recessieve allel <em>b</em> op één chromosoom). Na een terugkruising (<em>Ab // aB × ab // ab</em>) blijken slechts 12% van de nakomelingen het fenotype <em>A_B_</em> te hebben. Hoe komt dat?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-co2-3', 'Klopt! Omdat A en b samen op één chromosoom liggen (en a en B op het andere), zijn Ab en aB hier de oudertypen (88%) en is AB juist een recombinant type dat alleen door crossing-over (24% totaal: 12% AB en 12% ab) ontstaat.')">Doordat A en b gekoppeld zijn, is AB hier géén oudertype maar een recombinant gameet die alleen via crossing-over ontstaat</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-3', 'Nee, bij Ab // aB zijn alle vier de allelen (A, a, B, b) gewoon aanwezig. Door crossing-over kunnen A en B dus wél samen in één gameet komen.')">Omdat crossing-over onmogelijk is wanneer dominante en recessieve allelen op hetzelfde chromosoom liggen</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-co2-3', 'Niet helemaal. Bij onafhankelijke overerving zou Ab × aB 25% A_B_ opleveren, niet 12%.')">Omdat het allel B hier recessief is geworden door de aanwezigheid van allel a</button>
+    <p id="fb-co2-3" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+<!-- ===================================================================== -->
+<!-- == MODULE: VISUELE DIHYBRIDE CROSSING-OVER & FENOTYPE SIMULATOR ===== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>Visuele Simulator: Hoe Crossing-Over het Fenotype Verandert</h2>
+    <p>We bekijken een klassiek experiment van Thomas Hunt Morgan met fruitvliegjes (<em>Drosophila</em>). De genen voor <strong>lichaamskleur</strong> (<strong>G</strong> = grijs, <strong>g</strong> = zwart) en <strong>vleugelvorm</strong> (<strong>V</strong> = normale vleugels, <strong>v</strong> = vleugelloos) liggen op hetzelfde chromosoom.</p>
+    <p>We doen een terugkruising: <strong>GV // gv × gv // gv</strong> (1000 nakomelingen). Verschuif het recombinatiepercentage om te zien hoe de <strong>vier fenotypen</strong> verschijnen:</p>
+
+    <!-- Snelle voorkeuze-knoppen + Schuifregelaar -->
+    <div class="controls" style="flex-direction: column; gap: 12px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button type="button" class="quiz-btn" onclick="setVisCO(0)" style="width: auto; margin-bottom: 0; font-size: 0.9rem; font-weight: bold;">0% (Geen crossing-over)</button>
+        <button type="button" class="quiz-btn" onclick="setVisCO(20)" style="width: auto; margin-bottom: 0; font-size: 0.9rem; font-weight: bold;">20% (Crossing-over)</button>
+        <button type="button" class="quiz-btn" onclick="setVisCO(50)" style="width: auto; margin-bottom: 0; font-size: 0.9rem; font-weight: bold;">50% (Onafhankelijk: 1:1:1:1)</button>
+      </div>
+
+      <div>
+        <label for="visCOSlider"><strong>Recombinatiepercentage:</strong> <span id="visCOLabel" style="color: #1b6ca8; font-size: 1.1rem;">20%</span></label><br>
+        <input type="range" id="visCOSlider" min="0" max="50" step="2" value="20" oninput="updateVisCO()" style="width: 100%; cursor: pointer; margin-top: 6px;">
+      </div>
+    </div>
+
+    <!-- 4 Visuele Fenotype Kaarten (Vliegjes SVG + Aantallen) -->
+    <div id="visCOGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <div class="summary-box" id="visCOSummary" style="margin-bottom: 18px;">
+      <!-- Wordt gevuld door JavaScript -->
+    </div>
+
+    <!-- Visuele Controlevraag -->
+    <p><strong>Controlevraag (Fenotype herkennen): Zet de schuifregelaar hierboven op <em>0% (Geen crossing-over)</em>. Waarom zie je dan helemaal géén vliegjes die <em>grijs én vleugelloos</em> zijn?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visco', 'Nee, het recessieve allel v is wél aanwezig op het andere homologe chromosoom (samen met g), maar kan zonder crossing-over niet bij G komen.')">Omdat het allel voor vleugelloos (v) bij 0% recombinatie niet in de ouders aanwezig is</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'fb-visco', 'Uitstekend! Zonder crossing-over blijven G en V aan elkaar gekoppeld op één chromosoom, en g en v op het andere. Er ontstaan dus alleen GV- en gv-gameten, waardoor de combinaties Gv en gV ontbreken.')">Omdat G en V op hetzelfde chromosoom gekoppeld blijven, zodat er geen Gv-gameten worden gevormd</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'fb-visco', 'Niet helemaal. Grijze vliegjes zonder vleugels (Gv // gv) zijn prima levensvatbaar, zoals je ziet zodra je de schuifregelaar naar 20% zet!')">Omdat de combinatie van grijze kleur en vleugelloosheid een lethale factor is</button>
+    <p id="fb-visco" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+
+
+  
+<!-- ===================================================================== -->
+<!-- =================== MODULE 3: UITGEBREIDE KENNISCHECK =============== -->
+<!-- ===================================================================== -->
+  <div style="display: flex; align-items: center; justify-content: center; margin: 32px auto; max-width: 90%; gap: 12px;">
+    <span style="flex: 1; height: 2px; background: linear-gradient(to right, transparent, #94a3b8);"></span>
+    <span style="color: #1b6ca8; font-size: 1.2rem; font-weight: bold;">🧬</span>
+    <span style="flex: 1; height: 2px; background: linear-gradient(to left, transparent, #94a3b8);"></span>
+  </div>
+<!-- ===================================================================== -->
+
+  <section class="card">
+    <h2>3. Uitgebreide Kennischeck Genetica (VWO 4)</h2>
+    <p>Test je inzicht in alle onderdelen van deze lesmodule. Let goed op de schrijfwijze van de genotypen en veelvoorkomende valkuilen!</p>
+
+    <!-- VRAAG 1: Monohybride kansberekening -->
+    <p style="margin-top: 16px;"><strong>1. (Monohybride) Twee heterozygote zwarte cavia's (<em>Aa × Aa</em>) krijgen jongen. Hoe groot is de kans dat een willekeurig jong <em>heterozygoot</em> is?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f1', 'Niet helemaal. 25% is de kans op homozygoot dominant (AA) of homozygoot recessief (aa).')">25%</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f1', 'Goed! Uit Aa × Aa ontstaan 1 AA, 2 Aa en 1 aa. Twee van de vier vakjes zijn dus heterozygoot (Aa) = 50%.')">50%</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f1', 'Let op de misvatting: 75% is de kans op het dominante fenotype (AA + Aa samen), niet de kans op het genotype Aa.')">75%</button>
+    <p id="f1" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 2: Terugkruising -->
+    <p style="margin-top: 16px;"><strong>2. (Terugkruising) Een fokker heeft een zwarte cavia (<em>A_</em>) en wil weten of dit dier homozygoot (<em>AA</em>) of heterozygoot (<em>Aa</em>) is. Met welk dier moet hij deze cavia kruisen om daar het snelst achter te komen?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f2', 'Nee, bij kruising met een homozygoot zwarte cavia (AA) worden alle jongen zwart (AA of Aa), ongeacht het genotype van het eerste dier.')">Met een homozygoot zwarte cavia (AA)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f2', 'Niet de beste keuze: bij Aa × Aa is de kans op een wit jong maar 25%, terwijl een terugkruising met aa 50% kans geeft.')">Met een heterozygoot zwarte cavia (Aa)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f2', 'Uitstekend! Dit heet een terugkruising. Als de zwarte cavia Aa is, geeft een kruising met aa direct 50% kans op witte jongen (aa).')">Met een witte cavia (aa)</button>
+    <p id="f2" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 3: Codominantie & Multipele allelen (Bloedgroepen) -->
+    <p style="margin-top: 16px;"><strong>3. (Bloedgroepen — Codominantie) Een moeder heeft bloedgroep A (heterozygoot: <em>I<sup>A</sup>i</em>) en de vader heeft bloedgroep B (heterozygoot: <em>I<sup>B</sup>i</em>). Welke bloedgroepen kunnen hun kinderen krijgen?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f3', 'Vergeet niet dat beide ouders ook het recessieve allel i bij zich dragen, en dat Iᴬ en Iᴮ samen codominant zijn!')">Alleen bloedgroep A of bloedgroep B</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f3', 'Helemaal goed! Uit Iᴬi × Iᴮi kunnen vier combinaties ontstaan: IᴬIᴮ (AB), Iᴬi (A), Iᴮi (B) en ii (O) — elk met 25% kans.')">Alle vier de bloedgroepen zijn mogelijk: A, B, AB en O</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f3', 'Niet helemaal. Omdat beide ouders heterozygoot zijn (een i-allel hebben), kan een kind ook ii (bloedgroep O) erven.')">Alleen bloedgroep A, B of AB (bloedgroep O is uitgesloten)</button>
+    <p id="f3" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 4: Intermediair fenotype -->
+    <p style="margin-top: 16px;"><strong>4. (Intermediair fenotype) Bij nachtschone-planten geeft <em>C<sup>R</sup>C<sup>R</sup></em> rode bloemen, <em>C<sup>W</sup>C<sup>W</sup></em> witte bloemen en <em>C<sup>R</sup>C<sup>W</sup></em> roze bloemen. Welke fenotype-verhouding ontstaat bij de kruising <em>C<sup>R</sup>C<sup>W</sup> × C<sup>R</sup>C<sup>W</sup></em>?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f4', '3 : 1 geldt alleen bij volledige dominantie. Bij een intermediair fenotype kun je de heterozygoot (roze) uiterlijk onderscheiden.')">3 roze : 1 wit</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f4', 'Nee, beide homozygote vormen (rood en wit) komen in de F₂ gewoon weer terug.')">100% roze</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f4', 'Klopt! Bij een intermediair fenotype is de fenotype-verhouding gelijk aan de genotype-verhouding: 1 CᴿCᴿ (rood) : 2 CᴿCᵂ (roze) : 1 CᵂCᵂ (wit).')">1 rood : 2 roze : 1 wit</button>
+    <p id="f4" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 5: Dihybride kruising (Onafhankelijke overerving) -->
+    <p style="margin-top: 16px;"><strong>5. (Dihybride kruising) Bij cavia's is zwart (A) dominant over wit (a), en kortharig (B) dominant over langharig (b). Welk deel van de nakomelingen uit <em>AaBb × AaBb</em> heeft het fenotype <em>zwart en langharig</em> (<em>A_bb</em>)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f5', 'Uitstekend! De kans op zwart (A_) is 3/4 en de kans op langharig (bb) is 1/4. Samen geeft dat 3/4 × 1/4 = 3/16.')">3/16</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f5', '9/16 is het deel met beide dominante eigenschappen (zwart en kortharig: A_B_).')">9/16</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f5', '1/16 is het deel met beide recessieve eigenschappen (wit en langharig: aabb).')">1/16</button>
+    <p id="f5" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 6: X-chromosomale overerving -->
+    <p style="margin-top: 16px;"><strong>6. (X-chromosomaal) Rood-groen kleurenblindheid is een X-chromosomaal recessieve eigenschap (<em>X<sup>a</sup></em>). Een kleurenblinde man (<em>X<sup>a</sup>Y</em>) krijgt kinderen met een homozygoot normaalziende vrouw (<em>X<sup>A</sup>X<sup>A</sup></em>). Wat geldt voor hun kinderen?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f6', 'Veelgemaakte fout: een vader geeft aan zijn zoons altijd zijn Y-chromosoom door, nooit zijn X-chromosoom!')">Alle zoons worden kleurenblind, omdat de vader het gen aan zijn zoons doorgeeft</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f6', 'Helemaal goed! Zoons krijgen het Y-chromosoom van vader en Xᴬ van moeder (XᴬY). Dochters krijgen Xᵃ van vader en Xᴬ van moeder en worden dus allemaal draagster (XᴬXᵃ).')">Geen enkel kind wordt kleurenblind, maar alle dochters worden draagster (XᴬXᵃ)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f6', 'Nee, omdat de moeder XᴬXᴬ is, erft elk kind minstens één dominant allel Xᴬ en heeft dus normaal kleurenzicht.')">50% van de zoons en 50% van de dochters wordt kleurenblind</button>
+    <p id="f6" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 7: Lethale factor -->
+    <p style="margin-top: 16px;"><strong>7. (Lethale factor) Bij Manx-katten veroorzaakt het dominante allel <em>M<sup>L</sup></em> het ontbreken van een staart, maar in homozygote vorm (<em>M<sup>L</sup>M<sup>L</sup></em>) sterft het embryo al vóór de geboorte. Welke verhouding verwacht je onder de <em>levend geboren</em> kittens bij een kruising tussen twee staartloze Manx-katten (<em>M<sup>L</sup>m × M<sup>L</sup>m</em>)?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f7', '3 : 1 zou gelden als MᴸMᴸ levensvatbaar was, maar dat kwart van de bevruchte eicellen sterft vóór de geboorte.')">3 staartloos : 1 met staart</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f7', 'Uitstekend! Van de 4 mogelijke combinaties (1 MᴸMᴸ, 2 Mᴸm, 1 mm) valt 1 MᴸMᴸ weg vóór de geboorte. Er blijven 2 staartloze (Mᴸm) en 1 normale kitten (mm) over: verhouding 2 : 1.')">2 staartloos : 1 met staart</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f7', 'Niet helemaal. Twee heterozygote ouders (Mᴸm × Mᴸm) kunnen ook allebei het recessieve allel m doorgeven (mm = met staart).')">100% staartloos</button>
+    <p id="f7" style="font-weight:bold;"></p>
+
+    <!-- VRAAG 8: Gekoppelde overerving -->
+    <p style="margin-top: 16px;"><strong>8. (Gekoppelde overerving) Bij een organisme met genotype <em>AB // ab</em> liggen de genen <em>A</em> en <em>B</em> gekoppeld op één chromosoom, en <em>a</em> en <em>b</em> op het homologe chromosoom. Als er <em>geen</em> crossing-over optreedt, welke gameten vormt dit organisme dan?</strong></p>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f8', 'Vier typen gameten (AB, Ab, aB, ab) ontstaan alleen bij onafhankelijke overerving (verschillende chromosomen) of als er wél crossing-over plaatsvindt.')">AB, Ab, aB en ab (elk 25%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, false, 'f8', 'Let op: bij meiose worden de twee homologe chromosomen gescheiden, dus een gameet krijgt nooit zowel A als a.')">ABab (100%)</button>
+    <button class="quiz-btn" onclick="antwoord(this, true, 'f8', 'Klopt! Zonder crossing-over blijven A en B bij elkaar op het ene chromosoom en a en b op het andere, zodat er alleen ouder-gameten (50% AB en 50% ab) ontstaan.')">Alleen AB en ab (elk 50%)</button>
+    <p id="f8" style="font-weight:bold; margin-bottom: 0;"></p>
+  </section>
+
+
+</div>
+
+<script>
+  function maakGenotype(a, b) {
+    if (a === "A" && b === "A") return "AA";
+    if (a === "a" && b === "a") return "aa";
+    return "Aa";
+  }
+
+  function maakFenotype(g) {
+    return g.indexOf("A") !== -1 ? "Zwarte vacht" : "Witte vacht";
+  }
+
+  function berekenKruising() {
+    var o1 = document.getElementById("ouder1").value;
+    var o2 = document.getElementById("ouder2").value;
+
+    var a1 = o1.charAt(0);
+    var b1 = o1.charAt(1);
+    var a2 = o2.charAt(0);
+    var b2 = o2.charAt(1);
+
+    document.getElementById("g1a").innerText = a1;
+    document.getElementById("g1b").innerText = b1;
+    document.getElementById("g2a").innerText = a2;
+    document.getElementById("g2b").innerText = b2;
+
+    var v1 = maakGenotype(a1, a2);
+    var v2 = maakGenotype(b1, a2);
+    var v3 = maakGenotype(a1, b2);
+    var v4 = maakGenotype(b1, b2);
+
+    document.getElementById("vak1").innerHTML = v1 + '<span class="feno">' + maakFenotype(v1) + '</span>';
+    document.getElementById("vak2").innerHTML = v2 + '<span class="feno">' + maakFenotype(v2) + '</span>';
+    document.getElementById("vak3").innerHTML = v3 + '<span class="feno">' + maakFenotype(v3) + '</span>';
+    document.getElementById("vak4").innerHTML = v4 + '<span class="feno">' + maakFenotype(v4) + '</span>';
+
+    var zwart = 0;
+    if (v1.indexOf("A") !== -1) zwart++;
+    if (v2.indexOf("A") !== -1) zwart++;
+    if (v3.indexOf("A") !== -1) zwart++;
+    if (v4.indexOf("A") !== -1) zwart++;
+    var wit = 4 - zwart;
+
+    document.getElementById("uitslag").innerHTML =
+      "<strong>Verhouding Fenotype (F1):</strong> " + (zwart * 25) + "% Zwarte vacht • " + (wit * 25) + "% Witte vacht";
+  }
+
+  function antwoord(knop, goed, feedbackId, tekst) {
+    var fb = document.getElementById(feedbackId);
+    if (goed) {
+      knop.style.background = "#dcfce7";
+      knop.style.borderColor = "#16a34a";
+      fb.style.color = "#16a34a";
+    } else {
+      knop.style.background = "#fee2e2";
+      knop.style.borderColor = "#dc2626";
+      fb.style.color = "#dc2626";
+    }
+    fb.innerText = tekst;
+  }
+  function formatBloedAllel(letter) {
+    if (letter === "A") return "Iᴬ";
+    if (letter === "B") return "Iᴮ";
+    return "i";
+  }
+
+  function maakBloedGenotype(a, b) {
+    var paar = a + b;
+    if (paar === "AA") return "IᴬIᴬ";
+    if (paar === "BB") return "IᴮIᴮ";
+    if (paar === "ii") return "ii";
+    if (paar === "AB" || paar === "BA") return "IᴬIᴮ";
+    if (paar === "Ai" || paar === "iA") return "Iᴬi";
+    return "Iᴮi";
+  }
+
+  function maakBloedFenotype(g) {
+    if (g === "IᴬIᴮ") return "Bloedgroep AB";
+    if (g.indexOf("Iᴬ") !== -1) return "Bloedgroep A";
+    if (g.indexOf("Iᴮ") !== -1) return "Bloedgroep B";
+    return "Bloedgroep O";
+  }
+
+  function berekenBloedgroep() {
+    var o1 = document.getElementById("bloedOuder1").value;
+    var o2 = document.getElementById("bloedOuder2").value;
+
+    var a1 = o1.charAt(0);
+    var b1 = o1.charAt(1);
+    var a2 = o2.charAt(0);
+    var b2 = o2.charAt(1);
+
+    document.getElementById("bg1a").innerText = formatBloedAllel(a1);
+    document.getElementById("bg1b").innerText = formatBloedAllel(b1);
+    document.getElementById("bg2a").innerText = formatBloedAllel(a2);
+    document.getElementById("bg2b").innerText = formatBloedAllel(b2);
+
+    var v1 = maakBloedGenotype(a1, a2);
+    var v2 = maakBloedGenotype(b1, a2);
+    var v3 = maakBloedGenotype(a1, b2);
+    var v4 = maakBloedGenotype(b1, b2);
+
+    document.getElementById("bvak1").innerHTML = v1 + '<span class="feno">' + maakBloedFenotype(v1) + '</span>';
+    document.getElementById("bvak2").innerHTML = v2 + '<span class="feno">' + maakBloedFenotype(v2) + '</span>';
+    document.getElementById("bvak3").innerHTML = v3 + '<span class="feno">' + maakBloedFenotype(v3) + '</span>';
+    document.getElementById("bvak4").innerHTML = v4 + '<span class="feno">' + maakBloedFenotype(v4) + '</span>';
+  }
+  function geefVierGameten(geno) {
+    var a1 = geno.charAt(0);
+    var a2 = geno.charAt(1);
+    var b1 = geno.charAt(2);
+    var b2 = geno.charAt(3);
+    return new Array(a1 + b1, a1 + b2, a2 + b1, a2 + b2);
+  }
+
+  function maakDiGenotype(g1, g2) {
+    var a1 = g1.charAt(0);
+    var a2 = g2.charAt(0);
+    var b1 = g1.charAt(1);
+    var b2 = g2.charAt(1);
+
+    var deelA = (a1 === "A" && a2 === "A") ? "AA" : ((a1 === "a" && a2 === "a") ? "aa" : "Aa");
+    var deelB = (b1 === "B" && b2 === "B") ? "BB" : ((b1 === "b" && b2 === "b") ? "bb" : "Bb");
+    return deelA + deelB;
+  }
+
+  function maakDiFenotype(geno) {
+    var kleur = geno.indexOf("A") !== -1 ? "Zwart" : "Wit";
+    var haar = geno.indexOf("B") !== -1 ? "kortharig" : "langharig";
+    return kleur + ", " + haar;
+  }
+
+  function berekenDihybride() {
+    var o1 = document.getElementById("diOuder1").value;
+    var o2 = document.getElementById("diOuder2").value;
+
+    var gam1 = geefVierGameten(o1);
+    var gam2 = geefVierGameten(o2);
+
+    for (var i = 0; i < 4; i++) {
+      document.getElementById("dg1_" + (i + 1)).innerText = gam1.at(i);
+      document.getElementById("dg2_" + (i + 1)).innerText = gam2.at(i);
+    }
+
+    var telAB = 0;
+    var telAb = 0;
+    var telaB = 0;
+    var telab = 0;
+
+    for (var r = 0; r < 4; r++) {
+      for (var k = 0; k < 4; k++) {
+        var g = maakDiGenotype(gam1.at(k), gam2.at(r));
+        var f = maakDiFenotype(g);
+        document.getElementById("dv" + (r + 1) + "_" + (k + 1)).innerHTML = g + '<span class="feno">' + f + '</span>';
+
+        var heeftA = g.indexOf("A") !== -1;
+        var heeftB = g.indexOf("B") !== -1;
+        if (heeftA && heeftB) telAB++;
+        else if (heeftA && !heeftB) telAb++;
+        else if (!heeftA && heeftB) telaB++;
+        else telab++;
+      }
+    }
+
+    document.getElementById("diUitslag").innerHTML =
+      "<strong>Verhouding Fenotype (16 vakjes):</strong> " +
+      telAB + "× Zwart, kortharig • " +
+      telAb + "× Zwart, langharig • " +
+      telaB + "× Wit, kortharig • " +
+      telab + "× Wit, langharig";
+  }
+
+  function berekenGekoppeld() {
+    var rec = parseInt(document.getElementById("recombKans").value, 10);
+    var ouderlijk = (100 - rec) / 2;
+    var recombinant = rec / 2;
+
+    document.getElementById("gekoppeldUitslag").innerHTML =
+      "<strong>Verwachte nakomelingen (F1) bij AaBb × aabb:</strong><br>" +
+      "• <strong>" + ouderlijk + "%</strong> AaBb (Zwart, kortharig) — <em>ouderlijk type</em><br>" +
+      "• <strong>" + ouderlijk + "%</strong> aabb (Wit, langharig) — <em>ouderlijk type</em><br>" +
+      "• <strong>" + recombinant + "%</strong> Aabb (Zwart, langharig) — <em>recombinatie (crossing-over)</em><br>" +
+      "• <strong>" + recombinant + "%</strong> aaBb (Wit, kortharig) — <em>recombinatie (crossing-over)</em>";
+  }
+
+  berekenDihybride();
+  berekenGekoppeld();
+  function formatXAllel(code) {
+    if (code === "D") return "Xᴰ";
+    if (code === "d") return "Xᵈ";
+    return "Y";
+  }
+
+  function maakXGenotype(vAllel, mAllel) {
+    if (vAllel === "Y") {
+      return (mAllel === "D") ? "XᴰY" : "XᵈY";
+    }
+    var paar = vAllel + mAllel;
+    if (paar === "DD") return "XᴰXᴰ";
+    if (paar === "dd") return "XᵈXᵈ";
+    return "XᴰXᵈ";
+  }
+
+  function maakXFenotype(geno) {
+    if (geno === "XᴰXᴰ") return "Dochter (normaal zicht)";
+    if (geno === "XᴰXᵈ") return "Dochter (draagster)";
+    if (geno === "XᵈXᵈ") return "Dochter (kleurenblind)";
+    if (geno === "XᴰY") return "Zoon (normaal zicht)";
+    return "Zoon (kleurenblind)";
+  }
+
+  function berekenXChromosomaal() {
+    var v = document.getElementById("xVader").value;
+    var m = document.getElementById("xMoeder").value;
+
+    var v1 = v.charAt(0);
+    var v2 = v.charAt(1);
+    var m1 = m.charAt(0);
+    var m2 = m.charAt(1);
+
+    document.getElementById("xg1a").innerText = formatXAllel(v1);
+    document.getElementById("xg1b").innerText = formatXAllel(v2);
+    document.getElementById("xg2a").innerText = formatXAllel(m1);
+    document.getElementById("xg2b").innerText = formatXAllel(m2);
+
+    var g1 = maakXGenotype(v1, m1);
+    var g2 = maakXGenotype(v2, m1);
+    var g3 = maakXGenotype(v1, m2);
+    var g4 = maakXGenotype(v2, m2);
+
+    document.getElementById("xvak1").innerHTML = g1 + '<span class="feno">' + maakXFenotype(g1) + '</span>';
+    document.getElementById("xvak2").innerHTML = g2 + '<span class="feno">' + maakXFenotype(g2) + '</span>';
+    document.getElementById("xvak3").innerHTML = g3 + '<span class="feno">' + maakXFenotype(g3) + '</span>';
+    document.getElementById("xvak4").innerHTML = g4 + '<span class="feno">' + maakXFenotype(g4) + '</span>';
+
+    var zonenKleurenblind = 0;
+    var dochtersKleurenblind = 0;
+    if (g2 === "XᵈY") zonenKleurenblind++;
+    if (g4 === "XᵈY") zonenKleurenblind++;
+    if (g1 === "XᵈXᵈ") dochtersKleurenblind++;
+    if (g3 === "XᵈXᵈ") dochtersKleurenblind++;
+
+    document.getElementById("xUitslag").innerHTML =
+      "<strong>Verwachte nakomelingen (F1):</strong> " +
+      (zonenKleurenblind * 50) + "% van de zonen kleurenblind (" + (zonenKleurenblind * 25) + "% totaal) • " +
+      (dochtersKleurenblind * 50) + "% van de dochters kleurenblind (" + (dochtersKleurenblind * 25) + "% totaal)";
+  }
+
+  berekenXChromosomaal();
+  // =====================================================================
+  // MODULE: DIHYBRIDE GAMETEN BOUWER
+  // =====================================================================
+  const alleMogelijkeGameten = ['AB', 'Ab', 'aB', 'ab', 'Aa', 'Bb', 'AA', 'bb'];
+
+  function getGeldigeGameten(genotype) {
+    const a1 = genotype[0], a2 = genotype[1];
+    const b1 = genotype[2], b2 = genotype[3];
+    const set = new Set([a1 + b1, a1 + b2, a2 + b1, a2 + b2]);
+    return Array.from(set);
+  }
+
+  function resetGameteBuilder() {
+    const geno = document.getElementById('gameteGenotype').value;
+    document.getElementById('gametePrompt').innerHTML =
+      `Vink alle mogelijke unieke gameten aan die een ouder met genotype <u>${geno}</u> kan maken:`;
+    document.getElementById('fb-gameteBuilder').textContent = '';
+
+    const container = document.getElementById('gameteOptions');
+    container.innerHTML = '';
+
+    alleMogelijkeGameten.forEach(gam => {
+      const label = document.createElement('label');
+      label.style.cssText = 'display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.05rem;';
+      label.innerHTML = `<input type="checkbox" class="gam-cb" value="${gam}" style="width: 18px; height: 18px; cursor: pointer;"> <span>${gam}</span>`;
+      container.appendChild(label);
+    });
+  }
+
+  function checkGameteBuilder() {
+    const geno = document.getElementById('gameteGenotype').value;
+    const juisteGameten = getGeldigeGameten(geno);
+    const checkboxes = document.querySelectorAll('#gameteOptions .gam-cb');
+    const gekozen = [];
+
+    checkboxes.forEach(cb => {
+      const parentLabel = cb.parentElement;
+      if (cb.checked) {
+        gekozen.push(cb.value);
+        if (juisteGameten.includes(cb.value)) {
+          parentLabel.style.borderColor = '#16a34a';
+          parentLabel.style.backgroundColor = '#dcfce7';
+        } else {
+          parentLabel.style.borderColor = '#dc2626';
+          parentLabel.style.backgroundColor = '#fee2e2';
+        }
+      } else {
+        if (juisteGameten.includes(cb.value)) {
+          parentLabel.style.borderColor = '#f59e0b';
+          parentLabel.style.backgroundColor = '#fef9c3';
+        } else {
+          parentLabel.style.borderColor = '#cbd5e1';
+          parentLabel.style.backgroundColor = '#f8fafc';
+        }
+      }
+    });
+
+    const fb = document.getElementById('fb-gameteBuilder');
+    const heeftFoute = gekozen.some(g => !juisteGameten.includes(g));
+    const mistGoede = juisteGameten.some(g => !gekozen.includes(g));
+
+    if (!heeftFoute && !mistGoede) {
+      fb.style.color = '#16a34a';
+      fb.textContent = `Uitstekend! Een ouder met genotype ${geno} vormt precies ${juisteGameten.length} type(n) gameten: ${juisteGameten.join(', ')}.`;
+    } else if (gekozen.some(g => ['Aa', 'Bb', 'AA', 'bb'].includes(g))) {
+      fb.style.color = '#dc2626';
+      fb.textContent = `Let op! Gameten zoals Aa of Bb bestaan niet na een normale meiose: een gameet krijgt van elk genenpaar (A/a én B/b) precies één allel.`;
+    } else {
+      fb.style.color = '#dc2626';
+      fb.textContent = `Nog niet helemaal compleet (geel = gemist, rood = onjuist). De juiste gameten voor ${geno} zijn: ${juisteGameten.join(', ')}.`;
+    }
+  }
+
+  // =====================================================================
+  // MODULE: DIHYBRIDE TERUGKRUISING & ONBEKENDE OUDERS
+  // =====================================================================
+  const mysteryCases = [
+    {
+      titel: 'Casus 1: De Dihybride Terugkruising',
+      beschrijving: 'Een zwarte, kortharige cavia wordt gekruist met een witte, langharige cavia (aabb). In de F₁ ontstaan: <strong>25% zwart kortharig, 25% zwart langharig, 25% wit kortharig en 25% wit langharig</strong> (verhouding 1 : 1 : 1 : 1).',
+      opties: [
+        { tekst: 'AaBb × aabb', goed: true, fb: 'Helemaal goed! Omdat de witte, langharige ouder alleen ab-gameten levert, zie je aan de 4 fenotypen van de F₁ direct dat de andere ouder alle 4 gameten (AB, Ab, aB, ab) maakt en dus dubbel heterozygoot (AaBb) is.' },
+        { tekst: 'AABb × aabb', goed: false, fb: 'Niet helemaal. Een ouder met AABb geeft altijd het dominante allel A door, dus er zouden nooit witte nakomelingen (aa) kunnen ontstaan.' },
+        { tekst: 'AaBb × AaBb', goed: false, fb: 'Nee, AaBb × AaBb geeft een 9 : 3 : 3 : 1 verhouding. Hier zie je een klassieke terugkruising (1 : 1 : 1 : 1).' }
+      ]
+    },
+    {
+      titel: 'Casus 2: Verhouding 3 : 3 : 1 : 1',
+      beschrijving: 'Uit een kruising ontstaan veel nakomelingen met de volgende verhouding: <strong>3/8 zwart kortharig, 3/8 zwart langharig, 1/8 wit kortharig en 1/8 wit langharig</strong> (3 : 3 : 1 : 1).',
+      opties: [
+        { tekst: 'AaBb × AaBb', goed: false, fb: 'Nee, dat zou 9 : 3 : 3 : 1 opleveren. Kijk per eigenschap: zwart : wit = 6 : 2 = 3 : 1 (dus Aa × Aa), en kortharig : langharig = 4 : 4 = 1 : 1 (dus Bb × bb).' },
+        { tekst: 'AaBb × Aabb', goed: true, fb: 'Uitstekend! Splits per eigenschap: 3/4 zwart en 1/4 wit wijst op Aa × Aa. 1/2 kortharig en 1/2 langharig wijst op Bb × bb. Samen geeft dat AaBb × Aabb!' },
+        { tekst: 'AABb × aaBb', goed: false, fb: 'Nee, bij AABb × aaBb worden alle nakomelingen heterozygoot Aa (100% zwart), terwijl er hier ook witte nakomelingen zijn.' }
+      ]
+    },
+    {
+      titel: 'Casus 3: Alle nakomelingen kortharig (3 : 1 : 0 : 0)',
+      beschrijving: 'Twee zwarte, kortharige cavia\'s krijgen samen 16 jongen: <strong>12 zijn zwart en kortharig, en 4 zijn wit en kortharig</strong>. Geen enkel jong is langharig (verhouding 3 : 1 : 0 : 0).',
+      opties: [
+        { tekst: 'AaBB × AaBb (of AaBB × AaBB)', goed: true, fb: 'Goed beredeneerd! Omdat er witte jongen (aa) zijn, moeten beide ouders heterozygoot zijn voor kleur (Aa × Aa → 3 : 1). Omdat geen enkel jong langharig (bb) is, heeft minstens één ouder het genotype BB.' },
+        { tekst: 'AaBb × AaBb', goed: false, fb: 'Bij AaBb × AaBb zou 1/4 van de jongen langharig (bb) zijn (ongeveer 4 van de 16). Hier zijn alle 16 jongen kortharig.' },
+        { tekst: 'AABb × AaBb', goed: false, fb: 'Niet helemaal. Bij AABb × AaBb kunnen er geen witte jongen (aa) ontstaan, en wél langharige jongen (bb).' }
+      ]
+    },
+    {
+      titel: 'Casus 4: Twee zwarte, kortharige ouders → 9 : 3 : 3 : 1',
+      beschrijving: 'Twee zwarte, kortharige cavia\'s krijgen samen een groot aantal nakomelingen: <strong>9/16 zwart kortharig, 3/16 zwart langharig, 3/16 wit kortharig en 1/16 wit langharig</strong>.',
+      opties: [
+        { tekst: 'AABB × aabb', goed: false, fb: 'Nee, AABB × aabb geeft in de F₁ 100% AaBb (allemaal zwart en kortharig). Pas als je die F₁ onderling kruist (F₁ × F₁) krijg je 9 : 3 : 3 : 1.' },
+        { tekst: 'AaBb × AaBb', goed: true, fb: 'Klopt! Beide ouders hebben het dominante fenotype (zwart, kortharig), maar dragen ook beide recessieve allelen bij zich (dubbel heterozygoot: AaBb × AaBb).' },
+        { tekst: 'AaBb × aabb', goed: false, fb: 'Nee, AaBb × aabb geeft 1 : 1 : 1 : 1, en bovendien is aabb wit en langharig.' }
+      ]
+    }
+  ];
+
+  function loadMysteryCase() {
+    const idx = parseInt(document.getElementById('mysteryCase').value);
+    const casus = mysteryCases[idx];
+    document.getElementById('mysteryBox').innerHTML = `<strong>${casus.titel}:</strong><br>${casus.beschrijving}`;
+    document.getElementById('fb-mystery').textContent = '';
+
+    const btnContainer = document.getElementById('mysteryButtons');
+    btnContainer.innerHTML = '';
+
+    casus.opties.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz-btn';
+      btn.textContent = opt.tekst;
+      btn.onclick = function() {
+        const fb = document.getElementById('fb-mystery');
+        if (opt.goed) {
+          btn.style.backgroundColor = '#dcfce7';
+          btn.style.borderColor = '#16a34a';
+          fb.style.color = '#16a34a';
+        } else {
+          btn.style.backgroundColor = '#fee2e2';
+          btn.style.borderColor = '#dc2626';
+          fb.style.color = '#dc2626';
+        }
+        fb.textContent = opt.fb;
+      };
+      btnContainer.appendChild(btn);
+    });
+  }
+
+  // Initialiseer beide dihybride modules direct bij het laden van de pagina
+  resetGameteBuilder();
+  loadMysteryCase();
+  // =====================================================================
+  // MODULE: GENETISCHE NOTATIES HERKENNEN
+  // =====================================================================
+  const notatieItems = [
+    {
+      id: 'domrec',
+      notatie: 'Aa × aa',
+      label: 'Monohybride dominant / recessief',
+      uitleg: 'Hoofdletter (A) = dominant allel, kleine letter (a) = recessief allel voor één eigenschap op een autosoom.'
+    },
+    {
+      id: 'dihybride',
+      notatie: 'AaBb',
+      label: 'Dihybride (onafhankelijke overerving)',
+      uitleg: 'Twee verschillende genenparen (A/a en B/b) die op verschillende chromosomenparen liggen en onafhankelijk van elkaar vererven.'
+    },
+    {
+      id: 'codominant',
+      notatie: 'I<sup>A</sup>I<sup>B</sup> <span style="font-size:0.85rem; font-weight:normal; color:#475569;">(bloedgroep AB)</span>',
+      label: 'Codominantie',
+      uitleg: 'Beide allelen (Iᴬ en Iᴮ) komen volledig en tegelijk tot uiting in het fenotype (zowel antigeen A als B op de rode bloedcellen).'
+    },
+    {
+      id: 'intermediair',
+      notatie: 'C<sup>R</sup>C<sup>W</sup> <span style="font-size:0.85rem; font-weight:normal; color:#475569;">(roze bloem uit rood × wit)</span>',
+      label: 'Intermediair fenotype (onvolledig dominant)',
+      uitleg: 'Geen van beide allelen overheerst volledig; de heterozygoot (CᴿCᵂ) krijgt een mengvorm (tussenliggend fenotype).'
+    },
+    {
+      id: 'xchrom',
+      notatie: 'X<sup>H</sup>X<sup>h</sup>  en  X<sup>h</sup>Y',
+      label: 'X-chromosomale (geslachtsgebonden) overerving',
+      uitleg: 'De allelen staan in superscript op het X-chromosoom; op het Y-chromosoom ontbreekt dit gen, waardoor mannen (XʰY) sneller het recessieve fenotype hebben.'
+    },
+    {
+      id: 'karyotype',
+      notatie: '46, XY  <span style="font-size:0.85rem; font-weight:normal; color:#475569;">(of 47, XXY)</span>',
+      label: 'Karyotype-notatie (met geslachtschromosomen)',
+      uitleg: 'Geeft het totaal aantal chromosomen per lichaamscel aan (normaal 46), gevolgd door de samenstelling van de geslachtschromosomen.'
+    },
+    {
+      id: 'gekoppeld',
+      notatie: 'AB // ab  <span style="font-size:0.85rem; font-weight:normal; color:#475569;">(of (AB)(ab))</span>',
+      label: 'Gekoppelde overerving',
+      uitleg: 'De dubbele streep (//) of haakjes geven aan dat gen A en gen B samen op hetzelfde chromosomenpaar liggen.'
+    },
+    {
+      id: 'lethaal',
+      notatie: 'A<sup>L</sup>A × A<sup>L</sup>A <span style="font-size:0.85rem; font-weight:normal; color:#475569;">(verhouding 2 : 1)</span>',
+      label: 'Lethale factor',
+      uitleg: 'Een allel (vaak met superscript L) dat in homozygote vorm (AᴸAᴸ) dodelijk is vóór of vlak na de geboorte, waardoor de overlevende verhouding 2 : 1 wordt.'
+    }
+  ];
+
+  function initNotatieQuiz() {
+    const container = document.getElementById('notatie-quiz');
+    container.innerHTML = '';
+    document.getElementById('fb-notaties').textContent = '';
+
+    // Hussel de items zodat ze niet in vaste volgorde staan
+    const gehusseld = [...notatieItems].sort(() => Math.random() - 0.5);
+
+    gehusseld.forEach(item => {
+      const row = document.createElement('div');
+      row.id = `row-${item.id}`;
+      row.style.cssText = 'background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px;';
+
+      let optiesHtml = '<option value="">-- Kies het juiste type overerving --</option>';
+      notatieItems.forEach(opt => {
+        optiesHtml += `<option value="${opt.id}">${opt.label}</option>`;
+      });
+
+      row.innerHTML = `
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+          <div style="font-size: 1.15rem; font-weight: bold; color: #0f172a; min-width: 210px;">
+            ${item.notatie}
+          </div>
+          <select id="sel-${item.id}" style="flex: 1; min-width: 240px; max-width: 440px;">
+            ${optiesHtml}
+          </select>
+        </div>
+        <div id="exp-${item.id}" style="display: none; margin-top: 8px; font-size: 0.9rem; color: #334155;"></div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function checkNotaties() {
+    let goedCount = 0;
+
+    notatieItems.forEach(item => {
+      const sel = document.getElementById(`sel-${item.id}`);
+      const row = document.getElementById(`row-${item.id}`);
+      const exp = document.getElementById(`exp-${item.id}`);
+
+      exp.style.display = 'block';
+
+      if (sel.value === item.id) {
+        goedCount++;
+        row.style.backgroundColor = '#dcfce7';
+        row.style.borderColor = '#16a34a';
+        exp.innerHTML = `<strong style="color:#15803d;">✓ Goed!</strong> ${item.uitleg}`;
+      } else {
+        row.style.backgroundColor = '#fee2e2';
+        row.style.borderColor = '#dc2626';
+        exp.innerHTML = `<strong style="color:#b91c1c;">✗ Nog niet juist.</strong> Dit hoort bij <strong>${item.label}</strong>: ${item.uitleg}`;
+      }
+    });
+
+    const fb = document.getElementById('fb-notaties');
+    if (goedCount === notatieItems.length) {
+      fb.style.color = '#16a34a';
+      fb.textContent = `Uitstekend! Je hebt alle ${notatieItems.length} genetische notaties foutloos herkend!`;
+    } else {
+      fb.style.color = '#dc2626';
+      fb.textContent = `Je hebt ${goedCount} van de ${notatieItems.length} goed. Bekijk de uitleg bij de rode vakken en klik op 'Opnieuw husselen' om nog eens te oefenen.`;
+    }
+  }
+
+  // Initialiseer direct bij laden
+  initNotatieQuiz();
+  // =====================================================================
+  // MODULE: STAMBOOM SOLVER (VWO 4)
+  // =====================================================================
+  const stamboomCasussen = [
+    {
+      titel: 'Stamboom 1 (Albinisme / Recessieve eigenschap)',
+      hint: '<strong>Tip voor je redenering:</strong> Kijk naar ouderpaar <strong>I-1 en I-2</strong>. Geen van beiden heeft de eigenschap, maar hun dochter <strong>II-2</strong> heeft de eigenschap wél. Waarom sluit dit zowel dominante als X-chromosomaal recessieve overerving uit?',
+            svg: `
+        <svg viewBox="0 0 620 270" style="width:100%; max-width:580px; height:auto; font-family:sans-serif; font-size:12px;">
+          <!-- Generatie labels -->
+          <text x="20" y="52" font-weight="bold" fill="#64748b">I</text>
+          <text x="20" y="147" font-weight="bold" fill="#64748b">II</text>
+          <text x="20" y="237" font-weight="bold" fill="#64748b">III</text>
+
+          <!-- Generatie I: I-1 (man open) x I-2 (vrouw open) -->
+          <line x1="230" y1="48" x2="310" y2="48" stroke="#334155" stroke-width="2"></line>
+          <line x1="270" y1="48" x2="270" y2="95" stroke="#334155" stroke-width="2"></line>
+          <rect x="200" y="33" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="215" y="26" text-anchor="middle" font-weight="bold">1</text>
+          <circle cx="325" cy="48" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="325" y="26" text-anchor="middle" font-weight="bold">2</text>
+
+          <!-- Horizontale verbindingslijn tussen alle kinderen van Generatie I (150 tot 390) -->
+          <line x1="150" y1="95" x2="390" y2="95" stroke="#334155" stroke-width="2"></line>
+
+          <!-- Verticale lijnen naar II-1 (150), II-2 (270) en II-3 (390) -->
+          <line x1="150" y1="95" x2="150" y2="128" stroke="#334155" stroke-width="2"></line>
+          <line x1="270" y1="95" x2="270" y2="128" stroke="#334155" stroke-width="2"></line>
+          <line x1="390" y1="95" x2="390" y2="128" stroke="#334155" stroke-width="2"></line>
+
+          <!-- II-1 (man open, midden op x=150) -->
+          <rect x="135" y="128" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="136" y="122" text-anchor="middle" font-weight="bold">1</text>
+
+          <!-- II-2 (vrouw vol - aangedaan, midden op x=270) -->
+          <circle cx="270" cy="143" r="15" fill="#1e293b" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="255" y="122" text-anchor="middle" font-weight="bold" fill="#dc2626">2</text>
+
+          <!-- II-3 (man open, midden op x=390) x II-4 (vrouw open, midden op x=490) -->
+          <rect x="375" y="128" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="376" y="122" text-anchor="middle" font-weight="bold">3</text>
+          <line x1="405" y1="143" x2="475" y2="143" stroke="#334155" stroke-width="2"></line>
+          <circle cx="490" cy="143" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="490" y="122" text-anchor="middle" font-weight="bold">4</text>
+
+          <!-- Gen III onder II-3 x II-4 -->
+          <line x1="440" y1="143" x2="440" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="400" y1="188" x2="480" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="400" y1="188" x2="400" y2="218" stroke="#334155" stroke-width="2"></line>
+          <line x1="480" y1="188" x2="480" y2="218" stroke="#334155" stroke-width="2"></line>
+          <circle cx="400" cy="233" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="400" y="262" text-anchor="middle" font-weight="bold">1</text>
+          <rect x="465" y="218" width="30" height="30" fill="#1e293b" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="480" y="262" text-anchor="middle" font-weight="bold">2</text>
+        </svg>
+      `,
+      stap1Opties: [
+        {
+          tekst: 'Autosomaal recessief',
+          goed: true,
+          fb: 'Uitstekend! I-1 en I-2 hebben de eigenschap niet, maar krijgen een kind (II-2) dat de eigenschap wél heeft → het allel was verborgen aanwezig en is dus recessief. Omdat dochter II-2 twee recessieve allelen heeft, moet ook haar vader (I-1) een recessief allel hebben zonder zelf aangedaan te zijn → het gen ligt op een autosoom (niet X-chromosomaal).'
+        },
+        {
+          tekst: 'Autosomaal dominant',
+          goed: false,
+          fb: 'Niet mogelijk: als de eigenschap dominant was, zou dochter II-2 minstens één dominant allel van I-1 of I-2 moeten hebben gekregen, en zou dus minstens één ouder ook de eigenschap hebben.'
+        },
+        {
+          tekst: 'X-chromosomaal recessief',
+          goed: false,
+          fb: 'Scherp opletten! Bij X-chromosomaal recessief moet een aangedane dochter (XᵃXᵃ, zoals II-2) van beide ouders een Xᵃ krijgen. Haar vader (I-1) zou dan XᵃY zijn en dus zelf ook de eigenschap hebben — maar I-1 is gezond!'
+        }
+      ],
+      stap2Vraag: 'Stap 2: Wat zijn met zekerheid de genotypen van vader I-1 en zoon II-1 (gebruik A / a)?',
+      stap2Opties: [
+        {
+          tekst: 'I-1 is Aa, en II-1 is AA of Aa (niet met zekerheid te zeggen)',
+          goed: true,
+          fb: 'Helemaal goed! I-1 heeft een gezonde uiterlijke vorm (A_) maar geeft een a-allel door aan dochter II-2 (aa), dus I-1 is zeker heterozygoot (Aa). Zijn gezonde zoon II-1 kan zowel AA als Aa zijn.'
+        },
+        {
+          tekst: 'I-1 is AA, en II-1 is Aa',
+          goed: false,
+          fb: 'Als I-1 het genotype AA had, zou hij alleen het dominante allel A doorgeven en kon dochter II-2 nooit aa zijn.'
+        },
+        {
+          tekst: 'Zowel I-1 als II-1 zijn met zekerheid Aa',
+          goed: false,
+          fb: 'I-1 is inderdaad zeker Aa (vanwege dochter II-2), maar zoon II-1 heeft zelf nog geen recessieve kinderen en kan dus ook AA zijn.'
+        }
+      ]
+    },
+    {
+      titel: 'Stamboom 2 (Polydactylie / Dominante eigenschap)',
+      hint: '<strong>Tip voor je redenering:</strong> Kijk naar ouderpaar <strong>I-1 en I-2</strong>. Beiden hebben de eigenschap, maar hun zoon <strong>II-3</strong> heeft de eigenschap <em>niet</em>. Wat betekent dat voor het allel van de eigenschap?',
+            svg: `
+        <svg viewBox="0 0 620 270" style="width:100%; max-width:580px; height:auto; font-family:sans-serif; font-size:12px;">
+          <!-- Generatie labels -->
+          <text x="20" y="52" font-weight="bold" fill="#64748b">I</text>
+          <text x="20" y="147" font-weight="bold" fill="#64748b">II</text>
+          <text x="20" y="237" font-weight="bold" fill="#64748b">III</text>
+
+          <!-- I-1 (man vol) x I-2 (vrouw vol) -->
+          <line x1="230" y1="48" x2="310" y2="48" stroke="#334155" stroke-width="2"></line>
+          <line x1="270" y1="48" x2="270" y2="95" stroke="#334155" stroke-width="2"></line>
+          <rect x="200" y="33" width="30" height="30" fill="#1e293b" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="215" y="26" text-anchor="middle" font-weight="bold">1</text>
+          <circle cx="325" cy="48" r="15" fill="#1e293b" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="325" y="26" text-anchor="middle" font-weight="bold">2</text>
+
+          <!-- Horizontale verbindingslijn tussen alle kinderen van Generatie I (150 tot 410) -->
+          <line x1="150" y1="95" x2="410" y2="95" stroke="#334155" stroke-width="2"></line>
+
+          <!-- Verticale lijnen naar II-1 (150), II-3 (300) en II-4 (410) -->
+          <line x1="150" y1="95" x2="150" y2="128" stroke="#334155" stroke-width="2"></line>
+          <line x1="300" y1="95" x2="300" y2="128" stroke="#334155" stroke-width="2"></line>
+          <line x1="410" y1="95" x2="410" y2="128" stroke="#334155" stroke-width="2"></line>
+
+          <!-- II-1 (vrouw vol, midden op x=150) x II-2 (man open, midden op x=230) -->
+          <circle cx="150" cy="143" r="15" fill="#1e293b" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="136" y="122" text-anchor="middle" font-weight="bold">1</text>
+          <line x1="165" y1="143" x2="215" y2="143" stroke="#334155" stroke-width="2"></line>
+          <rect x="215" y="128" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="230" y="122" text-anchor="middle" font-weight="bold">2</text>
+
+          <!-- II-3 (man open - sleutelindividu, midden op x=300) -->
+          <rect x="285" y="128" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="286" y="122" text-anchor="middle" font-weight="bold" fill="#dc2626">3</text>
+
+          <!-- II-4 (vrouw vol, midden op x=410) -->
+          <circle cx="410" cy="143" r="15" fill="#1e293b" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="396" y="122" text-anchor="middle" font-weight="bold">4</text>
+
+          <!-- Gen III onder II-1 x II-2 -->
+          <line x1="190" y1="143" x2="190" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="150" y1="188" x2="230" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="150" y1="188" x2="150" y2="218" stroke="#334155" stroke-width="2"></line>
+          <line x1="230" y1="188" x2="230" y2="218" stroke="#334155" stroke-width="2"></line>
+          <circle cx="150" cy="233" r="15" fill="#1e293b" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="150" y="262" text-anchor="middle" font-weight="bold">1</text>
+          <rect x="215" y="218" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="230" y="262" text-anchor="middle" font-weight="bold">2</text>
+        </svg>
+      `,
+      stap1Opties: [
+        {
+          tekst: 'Autosomaal recessief',
+          goed: false,
+          fb: 'Niet mogelijk: als de eigenschap recessief was, zouden twee aangedane ouders (aa × aa) uitsluitend aangedane kinderen (aa) kunnen krijgen. Zoon II-3 heeft de eigenschap echter niet.'
+        },
+        {
+          tekst: 'Autosomaal dominant',
+          goed: true,
+          goed: true,
+          fb: 'Uitstekend! Beide ouders (I-1 en I-2) hebben de eigenschap, maar krijgen een kind zonder de eigenschap (II-3). Dat kan alleen als beide ouders heterozygoot (Aa) zijn en het niet-hebben van de eigenschap recessief (aa) is.'
+        },
+        {
+          tekst: 'X-chromosomaal recessief',
+          goed: false,
+          fb: 'Bij X-chromosomaal recessief zouden beide aangedane ouders (XᵃY × XᵃXᵃ) alleen kinderen met de eigenschap krijgen.'
+        }
+      ],
+      stap2Vraag: 'Stap 2: Wat zijn de genotypen van I-1, I-2 en III-1 (gebruik A / a)?',
+      stap2Opties: [
+        {
+          tekst: 'I-1 is Aa, I-2 is Aa, en III-1 is ook met zekerheid Aa',
+          goed: true,
+          fb: 'Klopt! I-1 en I-2 zijn allebei Aa (vanwege zoon II-3 met aa). III-1 heeft de eigenschap (A_) en heeft een vader II-2 zonder de eigenschap (aa), dus III-1 moet het allel a van haar vader hebben gekregen en is zeker Aa.'
+        },
+        {
+          tekst: 'I-1 is AA, I-2 is Aa, en III-1 is AA',
+          goed: false,
+          fb: 'Als I-1 het genotype AA had, kon zoon II-3 nooit aa zijn. Bovendien krijgt III-1 van haar vader II-2 (aa) altijd een a-allel.'
+        },
+        {
+          tekst: 'I-1 is Aa, I-2 is Aa, en III-1 kan AA of Aa zijn',
+          goed: false,
+          fb: 'Kijk naar de vader van III-1 (man II-2): hij heeft de eigenschap niet en is dus aa. Hij geeft dus altijd een a-allel door aan dochter III-1!'
+        }
+      ]
+    },
+    {
+      titel: 'Stamboom 3 (Kleurenblindheid / Hemofilie)',
+      hint: '<strong>Tip voor je redenering:</strong> Kijk naar het geslacht van de aangedane personen (uitsluitend mannen: <strong>II-1, III-1 en III-3</strong>) en let op hoe de eigenschap via gezonde moeders (draagsters) wordt doorgegeven.',
+      svg: `
+        <svg viewBox="0 0 620 270" style="width:100%; max-width:580px; height:auto; font-family:sans-serif; font-size:12px;">
+          <text x="20" y="52" font-weight="bold" fill="#64748b">I</text>
+          <text x="20" y="147" font-weight="bold" fill="#64748b">II</text>
+          <text x="20" y="237" font-weight="bold" fill="#64748b">III</text>
+
+          <line x1="230" y1="48" x2="310" y2="48" stroke="#334155" stroke-width="2"></line>
+          <line x1="270" y1="48" x2="270" y2="95" stroke="#334155" stroke-width="2"></line>
+          <rect x="200" y="33" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="215" y="26" text-anchor="middle" font-weight="bold">1</text>
+          <circle cx="325" cy="48" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="325" y="26" text-anchor="middle" font-weight="bold">2</text>
+
+          <line x1="160" y1="95" x2="380" y2="95" stroke="#334155" stroke-width="2"></line>
+          <line x1="160" y1="95" x2="160" y2="128" stroke="#334155" stroke-width="2"></line>
+          <line x1="380" y1="95" x2="380" y2="128" stroke="#334155" stroke-width="2"></line>
+
+          <rect x="145" y="128" width="30" height="30" fill="#1e293b" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="160" y="121" text-anchor="middle" font-weight="bold" fill="#dc2626">1</text>
+
+          <circle cx="380" cy="143" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="380" y="121" text-anchor="middle" font-weight="bold">2</text>
+          <line x1="395" y1="143" x2="455" y2="143" stroke="#334155" stroke-width="2"></line>
+          <rect x="455" y="128" width="30" height="30" fill="#ffffff" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="470" y="121" text-anchor="middle" font-weight="bold">3</text>
+
+          <line x1="425" y1="143" x2="425" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="355" y1="188" x2="495" y2="188" stroke="#334155" stroke-width="2"></line>
+          <line x1="355" y1="188" x2="355" y2="218" stroke="#334155" stroke-width="2"></line>
+          <line x1="425" y1="188" x2="425" y2="218" stroke="#334155" stroke-width="2"></line>
+          <line x1="495" y1="188" x2="495" y2="218" stroke="#334155" stroke-width="2"></line>
+
+          <rect x="340" y="218" width="30" height="30" fill="#1e293b" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="355" y="262" text-anchor="middle" font-weight="bold" fill="#dc2626">1</text>
+
+          <circle cx="425" cy="233" r="15" fill="#ffffff" stroke="#1e293b" stroke-width="2"></circle>
+          <text x="425" y="262" text-anchor="middle" font-weight="bold">2</text>
+
+          <rect x="480" y="218" width="30" height="30" fill="#1e293b" stroke="#1e293b" stroke-width="2"></rect>
+          <text x="495" y="262" text-anchor="middle" font-weight="bold" fill="#dc2626">3</text>
+        </svg>
+      `,
+      stap1Opties: [
+        {
+          tekst: 'Autosomaal dominant',
+          goed: false,
+          fb: 'Nee, de eigenschap slaat generaties over (ouders I-1 en I-2 zijn beiden gezond, net als II-2 en II-3) en is dus recessief.'
+        },
+        {
+          tekst: 'X-chromosomaal recessief',
+          goed: true,
+          fb: 'Uitstekend! De eigenschap is recessief (gezonde ouders krijgen aangedane kinderen) en komt alleen voor bij mannen (II-1, III-1, III-3), die het recessieve X-chromosoom (Xᵃ) via hun gezonde draagster-moeder (XᴬXᵃ) erven.'
+        },
+        {
+          tekst: 'Y-chromosomaal',
+          goed: false,
+          fb: 'Let op de misvatting: bij Y-chromosomale overerving zou vader I-1 de eigenschap zelf moeten hebben om hem door te geven aan zoon II-1, en zou vader II-3 hem moeten hebben om hem door te geven aan III-1 en III-3.'
+        }
+      ],
+      stap2Vraag: 'Stap 2: Wat zijn de genotypen van moeder II-2 en haar zoon III-1 (gebruik Xᴬ / Xᵃ / Y)?',
+      stap2Opties: [
+        {
+          tekst: 'II-2 is XᴬXᵃ (draagster) en III-1 is XᵃY',
+          goed: true,
+          fb: 'Helemaal goed! Zoon III-1 heeft de eigenschap en heeft dus het genotype XᵃY. Zijn Y-chromosoom kreeg hij van vader II-3 (XᴬY), dus het Xᵃ-chromosoom moet afkomstig zijn van moeder II-2 (XᴬXᵃ).'
+        },
+        {
+          tekst: 'II-2 is XᴬXᴬ en III-1 is XᵃYᵃ',
+          goed: false,
+          fb: 'Op het Y-chromosoom ligt dit gen niet (dus nooit Yᵃ). Bovendien moet moeder II-2 het Xᵃ-allel bij zich dragen om het aan haar zoons III-1 en III-3 door te geven.'
+        },
+        {
+          tekst: 'II-2 is XᵃXᵃ en III-1 is XᵃY',
+          goed: false,
+          fb: 'Als II-2 het genotype XᵃXᵃ had, zou zij zelf de eigenschap vertonen (haar rondje zou zwart zijn).'
+        }
+      ]
+    }
+  ];
+
+  function laadStamboom() {
+    const idx = parseInt(document.getElementById('stamboomSelect').value);
+    const casus = stamboomCasussen[idx];
+
+    document.getElementById('stamboomCanvas').innerHTML = casus.svg;
+    document.getElementById('stamboomHint').innerHTML = casus.hint;
+    document.getElementById('fb-stamboom1').textContent = '';
+    document.getElementById('fb-stamboom2').textContent = '';
+
+    // Stap 1 knoppen
+    const s1Container = document.getElementById('stamboomStap1Buttons');
+    s1Container.innerHTML = '';
+    casus.stap1Opties.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz-btn';
+      btn.textContent = opt.tekst;
+      btn.onclick = function() {
+        const fb = document.getElementById('fb-stamboom1');
+        if (opt.goed) {
+          btn.style.backgroundColor = '#dcfce7';
+          btn.style.borderColor = '#16a34a';
+          fb.style.color = '#16a34a';
+        } else {
+          btn.style.backgroundColor = '#fee2e2';
+          btn.style.borderColor = '#dc2626';
+          fb.style.color = '#dc2626';
+        }
+        fb.textContent = opt.fb;
+      };
+      s1Container.appendChild(btn);
+    });
+
+    // Stap 2 knoppen
+    document.getElementById('stamboomStap2Vraag').textContent = casus.stap2Vraag;
+    const s2Container = document.getElementById('stamboomStap2Buttons');
+    s2Container.innerHTML = '';
+    casus.stap2Opties.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz-btn';
+      btn.textContent = opt.tekst;
+      btn.onclick = function() {
+        const fb = document.getElementById('fb-stamboom2');
+        if (opt.goed) {
+          btn.style.backgroundColor = '#dcfce7';
+          btn.style.borderColor = '#16a34a';
+          fb.style.color = '#16a34a';
+        } else {
+          btn.style.backgroundColor = '#fee2e2';
+          btn.style.borderColor = '#dc2626';
+          fb.style.color = '#dc2626';
+        }
+        fb.textContent = opt.fb;
+      };
+      s2Container.appendChild(btn);
+    });
+  }
+
+  // Initialiseer Stamboom Solver direct bij laden
+  laadStamboom();
+
+  // =====================================================================
+  // AUTOMATISCHE INHOUDSOPGAVE VULLEN
+  // =====================================================================
+  (function bouwInhoudsopgave() {
+    const container = document.getElementById('inhoudsopgave');
+    if (!container) return;
+
+    const alleCards = document.querySelectorAll('section.card');
+    let teller = 0;
+
+    alleCards.forEach(card => {
+      // Sla de inhoudsopgave-kaart zelf over
+      if (card.contains(container)) return;
+
+      const titelEl = card.querySelector('h2');
+      if (!titelEl) return;
+
+      teller++;
+      if (!card.id) {
+        card.id = `module-auto-${teller}`;
+      }
+
+      const link = document.createElement('a');
+      link.href = `#${card.id}`;
+      link.textContent = titelEl.textContent;
+      link.style.cssText = 'display: block; background: #ffffff; color: #1b6ca8; text-decoration: none; padding: 10px 14px; border-radius: 8px; border: 1px solid #bae6fd; font-weight: bold; font-size: 0.92rem; transition: background 0.15s;';
+      
+      link.onmouseover = () => { link.style.background = '#f0f9ff'; };
+      link.onmouseout = () => { link.style.background = '#ffffff'; };
+
+      container.appendChild(link);
+    });
+  })();
+  // =====================================================================
+  // MODULE: CROSSING-OVER BASIS (VISUALISATIE)
+  // =====================================================================
+  function tekenCrossingOver(metCO) {
+    const canvas = document.getElementById('co-canvas');
+    const uitleg = document.getElementById('co-uitleg');
+
+    if (!metCO) {
+      canvas.innerHTML = `
+        <svg viewBox="0 0 680 210" style="width:100%; max-width:640px; height:auto; font-family:sans-serif; font-size:12px;">
+          <text x="140" y="22" text-anchor="middle" font-weight="bold" fill="#1e293b">1. Verdubbelde chromosomen (Profase I)</text>
+          <text x="500" y="22" text-anchor="middle" font-weight="bold" fill="#1e293b">2. Gevormde gameten (na Meiose II)</text>
+          <line x1="310" y1="15" x2="310" y2="195" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5"></line>
+
+          <!-- Blauw chromosoom (AB) - 2 zusterchromatiden -->
+          <rect x="75" y="42" width="16" height="140" rx="8" fill="#3b82f6"></rect>
+          <rect x="97" y="42" width="16" height="140" rx="8" fill="#3b82f6"></rect>
+          <circle cx="94" cy="95" r="5" fill="#1e3a8a"></circle>
+          <text x="64" y="65" font-weight="bold" fill="#1d4ed8">A</text>
+          <text x="64" y="160" font-weight="bold" fill="#1d4ed8">B</text>
+
+          <!-- Rood chromosoom (ab) - 2 zusterchromatiden -->
+          <rect x="165" y="42" width="16" height="140" rx="8" fill="#ef4444"></rect>
+          <rect x="187" y="42" width="16" height="140" rx="8" fill="#ef4444"></rect>
+          <circle cx="184" cy="95" r="5" fill="#7f1d1d"></circle>
+          <text x="212" y="65" font-weight="bold" fill="#b91c1c">a</text>
+          <text x="212" y="160" font-weight="bold" fill="#b91c1c">b</text>
+
+          <!-- 4 Gameten rechts: AB, AB, ab, ab -->
+          <g transform="translate(360, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#3b82f6"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#1d4ed8">AB</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+          <g transform="translate(435, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#3b82f6"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#1d4ed8">AB</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+          <g transform="translate(515, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#ef4444"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#b91c1c">ab</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+          <g transform="translate(590, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#ef4444"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#b91c1c">ab</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+        </svg>
+      `;
+      uitleg.innerHTML = '<strong>Zonder crossing-over:</strong> De twee zusterchromatiden van het blauwe chromosoom (<strong>AB</strong>) en het rode chromosoom (<strong>ab</strong>) blijven intact. Er ontstaan slechts <strong>2 typen gameten</strong>: 50% <strong>AB</strong> en 50% <strong>ab</strong>.';
+    } else {
+      canvas.innerHTML = `
+        <svg viewBox="0 0 680 210" style="width:100%; max-width:640px; height:auto; font-family:sans-serif; font-size:12px;">
+          <text x="140" y="22" text-anchor="middle" font-weight="bold" fill="#1e293b">1. Crossing-over tussen A en B</text>
+          <text x="500" y="22" text-anchor="middle" font-weight="bold" fill="#1e293b">2. Gevormde gameten (na Meiose II)</text>
+          <line x1="310" y1="15" x2="310" y2="195" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5"></line>
+
+          <!-- Buitenste blauwe chromatide (blijft AB) -->
+          <rect x="75" y="42" width="16" height="140" rx="8" fill="#3b82f6"></rect>
+          <text x="64" y="65" font-weight="bold" fill="#1d4ed8">A</text>
+          <text x="64" y="160" font-weight="bold" fill="#1d4ed8">B</text>
+
+          <!-- Binnenste blauwe chromatide met rood uiteinde (wordt Ab) -->
+          <rect x="97" y="42" width="16" height="85" rx="6" fill="#3b82f6"></rect>
+          <rect x="97" y="123" width="16" height="59" rx="6" fill="#ef4444"></rect>
+
+          <!-- Chiasma / kruispunt -->
+          <circle cx="139" cy="123" r="11" fill="#fef08a" stroke="#eab308" stroke-width="2"></circle>
+          <text x="139" y="127" text-anchor="middle" font-weight="bold" fill="#854d0e">×</text>
+
+          <!-- Binnenste rode chromatide met blauw uiteinde (wordt aB) -->
+          <rect x="165" y="42" width="16" height="85" rx="6" fill="#ef4444"></rect>
+          <rect x="165" y="123" width="16" height="59" rx="6" fill="#3b82f6"></rect>
+
+          <!-- Buitenste rode chromatide (blijft ab) -->
+          <rect x="187" y="42" width="16" height="140" rx="8" fill="#ef4444"></rect>
+          <text x="212" y="65" font-weight="bold" fill="#b91c1c">a</text>
+          <text x="212" y="160" font-weight="bold" fill="#b91c1c">b</text>
+
+          <!-- 4 Gameten rechts: AB, Ab (nieuw), aB (nieuw), ab -->
+          <g transform="translate(360, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#3b82f6"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#1d4ed8">AB</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+          <g transform="translate(435, 45)">
+            <rect x="0" y="0" width="16" height="65" rx="6" fill="#3b82f6"></rect>
+            <rect x="0" y="61" width="16" height="49" rx="6" fill="#ef4444"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#0f766e">Ab</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">(nieuw!)</text>
+          </g>
+          <g transform="translate(515, 45)">
+            <rect x="0" y="0" width="16" height="65" rx="6" fill="#ef4444"></rect>
+            <rect x="0" y="61" width="16" height="49" rx="6" fill="#3b82f6"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#0f766e">aB</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">(nieuw!)</text>
+          </g>
+          <g transform="translate(590, 45)">
+            <rect x="0" y="0" width="16" height="110" rx="8" fill="#ef4444"></rect>
+            <text x="8" y="130" text-anchor="middle" font-weight="bold" fill="#b91c1c">ab</text>
+            <text x="8" y="146" text-anchor="middle" font-size="10" fill="#64748b">(ouder)</text>
+          </g>
+        </svg>
+      `;
+      uitleg.innerHTML = '<strong>Met crossing-over:</strong> De binnenste twee chromatiden wisselen hun onderste stuk uit (het <strong>chiasma</strong>). Hierdoor ontstaan naast de ouder-gameten (<strong>AB</strong> en <strong>ab</strong>) ook twee <strong>recombinante gameten</strong>: <strong>Ab</strong> en <strong>aB</strong>!';
+    }
+  }
+
+  // Initialiseer direct met 'Zonder crossing-over'
+  tekenCrossingOver(false);
+  // =====================================================================
+  // MODULE: CROSSING-OVER 2 (RECOMBINATIE & CHROMOSOOMKAART SIMULATOR)
+  // =====================================================================
+  function updateCOAfstand() {
+    const rec = parseInt(document.getElementById('coAfstandSlider').value);
+    const ouderTotaal = 100 - rec;
+    const perOuder = (ouderTotaal / 2).toFixed(0);
+    const perRec = (rec / 2).toFixed(0);
+
+    const label = document.getElementById('coAfstandLabel');
+    if (rec === 0) {
+      label.textContent = '0 cM (0% recombinatie — Volledige koppeling)';
+    } else if (rec === 50) {
+      label.textContent = '≥ 50 cM (50% recombinatie — Niet te onderscheiden van onafhankelijk!)';
+    } else {
+      label.textContent = `${rec} cM (${rec}% recombinatie)`;
+    }
+
+    // Bereken visuele x-positie van gen B op de chromosoombalk (van 140 tot 540)
+    const xA = 140;
+    const xB = 140 + (rec * 8);
+
+    const canvas = document.getElementById('co-kaart-canvas');
+    canvas.innerHTML = `
+      <svg viewBox="0 0 680 115" style="width:100%; max-width:640px; height:auto; font-family:sans-serif; font-size:12px;">
+        <text x="340" y="20" text-anchor="middle" font-weight="bold" fill="#334155">Chromosoomkaart (1% recombinatie = 1 centimorgan / cM)</text>
+        
+        <!-- Chromosoom staaf -->
+        <rect x="80" y="46" width="520" height="18" rx="9" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"></rect>
+        
+        <!-- Afstandslijn tussen A en B -->
+        <line x1="${xA}" y1="82" x2="${xB}" y2="82" stroke="#0f766e" stroke-width="2.5"></line>
+        <text x="${(xA + xB) / 2}" y="100" text-anchor="middle" font-weight="bold" fill="#0f766e">${rec} cM</text>
+
+        <!-- Locus A -->
+        <circle cx="${xA}" cy="55" r="9" fill="#1b6ca8"></circle>
+        <text x="${xA}" y="38" text-anchor="middle" font-weight="bold" fill="#1b6ca8">Gen A</text>
+
+        <!-- Locus B -->
+        <circle cx="${xB}" cy="55" r="9" fill="#dc2626"></circle>
+        <text x="${xB}" y="38" text-anchor="middle" font-weight="bold" fill="#dc2626">Gen B</text>
+      </svg>
+    `;
+
+    const uitslag = document.getElementById('co-kaart-uitslag');
+    uitslag.innerHTML = `
+      <strong>Verwachte nakomelingen bij terugkruising (<em>AB // ab × ab // ab</em>):</strong><br>
+      • <strong>Oudertypen (${ouderTotaal}%):</strong> ${perOuder}% <code>AB // ab</code> en ${perOuder}% <code>ab // ab</code><br>
+      • <strong>Recombinanten (${rec}%):</strong> ${perRec}% <code>Ab // ab</code> en ${perRec}% <code>aB // ab</code>
+    `;
+  }
+
+  // Initialiseer simulator direct bij laden
+  updateCOAfstand();
+  // =====================================================================
+  // MODULE: VISUELE DIHYBRIDE CROSSING-OVER & FENOTYPE SIMULATOR
+  // =====================================================================
+  function maakVliegSVG(isGrijs, heeftVleugels) {
+    const lijfKleur = isGrijs ? '#94a3b8' : '#1e293b';
+    const streepKleur = isGrijs ? '#475569' : '#0f172a';
+    const vleugelsHTML = heeftVleugels
+      ? `
+        <ellipse cx="38" cy="48" rx="18" ry="8" transform="rotate(-35 38 48)" fill="rgba(186, 230, 253, 0.75)" stroke="#0284c7" stroke-width="1.5"></ellipse>
+        <ellipse cx="62" cy="48" rx="18" ry="8" transform="rotate(35 62 48)" fill="rgba(186, 230, 253, 0.75)" stroke="#0284c7" stroke-width="1.5"></ellipse>
+      `
+      : `
+        <ellipse cx="44" cy="48" rx="5" ry="3" fill="#cbd5e1" stroke="#64748b" stroke-width="1"></ellipse>
+        <ellipse cx="56" cy="48" rx="5" ry="3" fill="#cbd5e1" stroke="#64748b" stroke-width="1"></ellipse>
+      `;
+
+    return `
+      <svg viewBox="0 0 100 95" style="width: 84px; height: 80px; display: block; margin: 0 auto;">
+        <!-- Pootjes -->
+        <line x1="35" y1="45" x2="22" y2="35" stroke="#334155" stroke-width="2"></line>
+        <line x1="65" y1="45" x2="78" y2="35" stroke="#334155" stroke-width="2"></line>
+        <line x1="35" y1="55" x2="20" y2="60" stroke="#334155" stroke-width="2"></line>
+        <line x1="65" y1="55" x2="80" y2="60" stroke="#334155" stroke-width="2"></line>
+        <line x1="38" y1="65" x2="26" y2="80" stroke="#334155" stroke-width="2"></line>
+        <line x1="62" y1="65" x2="74" y2="80" stroke="#334155" stroke-width="2"></line>
+
+        <!-- Achterlijf & Borststuk -->
+        <ellipse cx="50" cy="64" rx="11" ry="18" fill="${lijfKleur}" stroke="${streepKleur}" stroke-width="1.5"></ellipse>
+        <line x1="40" y1="60" x2="60" y2="60" stroke="${streepKleur}" stroke-width="1.5"></line>
+        <line x1="40" y1="67" x2="60" y2="67" stroke="${streepKleur}" stroke-width="1.5"></line>
+        <circle cx="50" cy="42" r="10" fill="${lijfKleur}" stroke="${streepKleur}" stroke-width="1.5"></circle>
+
+        <!-- Kop & Rode Ogen -->
+        <circle cx="50" cy="27" r="7" fill="${lijfKleur}" stroke="${streepKleur}" stroke-width="1.5"></circle>
+        <circle cx="44" cy="25" r="3" fill="#dc2626"></circle>
+        <circle cx="56" cy="25" r="3" fill="#dc2626"></circle>
+
+        <!-- Vleugels -->
+        ${vleugelsHTML}
+      </svg>
+    `;
+  }
+
+  function setVisCO(waarde) {
+    document.getElementById('visCOSlider').value = waarde;
+    updateVisCO();
+  }
+
+  function updateVisCO() {
+    const rec = parseInt(document.getElementById('visCOSlider').value);
+    const ouderTotaal = 100 - rec;
+
+    const pOuder = ouderTotaal / 2;
+    const pRec = rec / 2;
+
+    const nOuder = Math.round(pOuder * 10);
+    const nRec = Math.round(pRec * 10);
+
+    document.getElementById('visCOLabel').textContent = `${rec}%`;
+
+    const fenotypen = [
+      {
+        titel: 'Grijs + Normale vleugels',
+        genotype: 'GV // gv',
+        type: 'Oudertype',
+        kleurBg: '#e0f2fe',
+        kleurRand: '#0284c7',
+        kleurBadge: '#0369a1',
+        pct: pOuder,
+        aantal: nOuder,
+        isGrijs: true,
+        heeftVleugels: true
+      },
+      {
+        titel: 'Zwart + Vleugelloos',
+        genotype: 'gv // gv',
+        type: 'Oudertype',
+        kleurBg: '#e0f2fe',
+        kleurRand: '#0284c7',
+        kleurBadge: '#0369a1',
+        pct: pOuder,
+        aantal: nOuder,
+        isGrijs: false,
+        heeftVleugels: false
+      },
+      {
+        titel: 'Grijs + Vleugelloos',
+        genotype: 'Gv // gv',
+        type: 'Recombinant (nieuw!)',
+        kleurBg: rec > 0 ? '#dcfce7' : '#f1f5f9',
+        kleurRand: rec > 0 ? '#16a34a' : '#cbd5e1',
+        kleurBadge: rec > 0 ? '#15803d' : '#64748b',
+        pct: pRec,
+        aantal: nRec,
+        isGrijs: true,
+        heeftVleugels: false
+      },
+      {
+        titel: 'Zwart + Normale vleugels',
+        genotype: 'gV // gv',
+        type: 'Recombinant (nieuw!)',
+        kleurBg: rec > 0 ? '#dcfce7' : '#f1f5f9',
+        kleurRand: rec > 0 ? '#16a34a' : '#cbd5e1',
+        kleurBadge: rec > 0 ? '#15803d' : '#64748b',
+        pct: pRec,
+        aantal: nRec,
+        isGrijs: false,
+        heeftVleugels: true
+      }
+    ];
+
+    const grid = document.getElementById('visCOGrid');
+    grid.innerHTML = '';
+
+    fenotypen.forEach(f => {
+      const card = document.createElement('div');
+      card.style.cssText = `background: ${f.kleurBg}; border: 2px solid ${f.kleurRand}; border-radius: 10px; padding: 12px; text-align: center; opacity: ${f.aantal === 0 ? '0.55' : '1'}; transition: all 0.2s;`;
+      card.innerHTML = `
+        <span style="display: inline-block; font-size: 0.78rem; font-weight: bold; color: ${f.kleurBadge}; background: #ffffff; padding: 2px 8px; border-radius: 12px; margin-bottom: 6px;">${f.type}</span>
+        ${maakVliegSVG(f.isGrijs, f.heeftVleugels)}
+        <div style="font-weight: bold; font-size: 0.95rem; color: #0f172a; margin-top: 4px;">${f.titel}</div>
+        <div style="font-size: 0.85rem; color: #475569;">Genotype: <code>${f.genotype}</code></div>
+        <div style="margin-top: 8px; font-size: 1.15rem; font-weight: bold; color: #0f172a;">${f.aantal} vliegjes <span style="font-size: 0.9rem; font-weight: normal;">(${f.pct}%)</span></div>
+      `;
+      grid.appendChild(card);
+    });
+
+    const summary = document.getElementById('visCOSummary');
+    if (rec === 0) {
+      summary.innerHTML = `<strong>Bij 0% recombinatie (volledige koppeling):</strong> Er ontstaan alleen de <strong>2 oorspronkelijke fenotypen</strong> van de ouders (500 grijs met vleugels en 500 zwart zonder vleugels). De twee gemengde fenotypen (0 vliegjes) ontbreken helemaal!`;
+    } else if (rec === 50) {
+      summary.innerHTML = `<strong>Bij 50% recombinatie (maximum):</strong> Alle <strong>4 fenotypen</strong> komen precies even vaak voor (250 : 250 : 250 : 250 = <strong>1 : 1 : 1 : 1</strong>). Dit ziet er precies hetzelfde uit als onafhankelijke overerving op verschillende chromosomen!`;
+    } else {
+      summary.innerHTML = `<strong>Bij ${rec}% recombinatie:</strong> De meerderheid (${ouderTotaal}% = ${nOuder * 2} vliegjes) lijkt nog op de ouders, maar door crossing-over ontstaan er nu <strong>${nRec * 2} vliegjes (${rec}%)</strong> met een <em>nieuwe</em> combinatie van eigenschappen (groene kaarten).`;
+    }
+  }
+
+  // Initialiseer simulator direct bij laden
+  updateVisCO();
+  // =====================================================================
+  // MODULE: VISUELE 4x4 KRUISINGSTABEL DIHYBRIDE OVERERVING
+  // =====================================================================
+  let actiefFenotypeFilter = 'alle';
+
+  function maakCaviaSVG(isZwart, isLangharig) {
+    const lijfKleur = isZwart ? '#334155' : '#ffffff';
+    const randKleur = '#0f172a';
+    const oogKleur = isZwart ? '#f8fafc' : '#dc2626';
+
+    const vachtLijnen = isLangharig
+      ? `
+        <path d="M 22 28 Q 14 22 18 16 M 32 22 Q 26 14 32 10 M 45 20 Q 42 11 48 9 M 58 22 Q 58 13 64 12 M 20 40 Q 11 42 14 48 M 34 48 Q 30 56 36 58 M 50 48 Q 48 56 54 58"
+              stroke="${randKleur}" stroke-width="1.8" fill="none" stroke-linecap="round"></path>
+      `
+      : '';
+
+    return `
+      <svg viewBox="0 0 90 65" style="width: 64px; height: 46px; display: block; margin: 2px auto;">
+        ${vachtLijnen}
+        <!-- Lijfje -->
+        <ellipse cx="44" cy="36" rx="24" ry="15" fill="${lijfKleur}" stroke="${randKleur}" stroke-width="2"></ellipse>
+        <!-- Oortje -->
+        <ellipse cx="60" cy="23" rx="5" ry="6" transform="rotate(-20 60 23)" fill="${isZwart ? '#64748b' : '#fbcfe8'}" stroke="${randKleur}" stroke-width="1.5"></ellipse>
+        <!-- Oogje -->
+        <circle cx="67" cy="32" r="2.5" fill="${oogKleur}"></circle>
+        <!-- Neusje -->
+        <circle cx="72" cy="37" r="2" fill="#f472b6"></circle>
+        <!-- Pootjes -->
+        <ellipse cx="30" cy="51" rx="5" ry="2.5" fill="#fbcfe8" stroke="${randKleur}" stroke-width="1.2"></ellipse>
+        <ellipse cx="56" cy="51" rx="5" ry="2.5" fill="#fbcfe8" stroke="${randKleur}" stroke-width="1.2"></ellipse>
+      </svg>
+    `;
+  }
+
+    function get4Gameten(geno) {
+    return [
+      geno[0] + geno[2],
+      geno[0] + geno[3],
+      geno[1] + geno[2],
+      geno[1] + geno[3]
+    ];
+  }
+
+  function combineerGameten(g1, g2) {
+    const a = [g1[0], g2[0]].sort().join('');
+    const b = [g1[1], g2[1]].sort().join('');
+    return a + b;
+  }
+
+  function bepaalFenotype(geno) {
+    const zwart = geno.includes('A');
+    const kort = geno.includes('B');
+    if (zwart && kort) return { code: 'ZK', label: 'Zwart + Kortharig', bg: '#dbeafe', rand: '#2563eb', zwart: true, lang: false };
+    if (zwart && !kort) return { code: 'ZL', label: 'Zwart + Langharig', bg: '#fef3c7', rand: '#d97706', zwart: true, lang: true };
+    if (!zwart && kort) return { code: 'WK', label: 'Wit + Kortharig', bg: '#dcfce7', rand: '#16a34a', zwart: false, lang: false };
+    return { code: 'WL', label: 'Wit + Langharig', bg: '#fce7f3', rand: '#db2777', zwart: false, lang: true };
+  }
+
+  function toggleFenotypeFilter(code) {
+    actiefFenotypeFilter = (actiefFenotypeFilter === code) ? 'alle' : code;
+    tekenVisueleDihybrideTabel();
+  }
+
+  function tekenVisueleDihybrideTabel() {
+    const o1 = document.getElementById('visDiOuder1').value;
+    const o2 = document.getElementById('visDiOuder2').value;
+
+    const gam1 = get4Gameten(o1);
+    const gam2 = get4Gameten(o2);
+
+    const tellingen = { ZK: 0, ZL: 0, WK: 0, WL: 0 };
+
+    let tabelHTML = `
+      <tr>
+        <th style="width: 14%; font-size: 0.95rem;">♂ \\ ♀</th>
+        ${gam1.map(g => `<th style="width: 21.5%; padding: 8px;">${g}</th>`).join('')}
+      </tr>
+    `;
+
+    for (let r = 0; r < 4; r++) {
+      tabelHTML += `<tr><th style="padding: 8px;">${gam2[r]}</th>`;
+      for (let k = 0; k < 4; k++) {
+        const kindGeno = combineerGameten(gam1[k], gam2[r]);
+        const feno = bepaalFenotype(kindGeno);
+        tellingen[feno.code]++;
+
+        const isGedimd = (actiefFenotypeFilter !== 'alle' && actiefFenotypeFilter !== feno.code);
+        const opacity = isGedimd ? '0.22' : '1';
+        const schaal = (!isGedimd && actiefFenotypeFilter === feno.code) ? 'box-shadow: inset 0 0 0 3px ' + feno.rand + ';' : '';
+
+        tabelHTML += `
+          <td style="background: ${feno.bg}; padding: 8px 4px; opacity: ${opacity}; ${schaal} transition: all 0.2s;">
+            ${maakCaviaSVG(feno.zwart, feno.lang)}
+            <div style="font-size: 1rem; color: #0f172a;">${kindGeno}</div>
+            <span class="feno" style="font-size: 0.76rem; color: #334155;">${feno.label}</span>
+          </td>
+        `;
+      }
+      tabelHTML += `</tr>`;
+    }
+
+    document.getElementById('visDiTabel').innerHTML = tabelHTML;
+
+    // Bouw klikbare filterknoppen met live telling
+    const groepen = [
+      { code: 'ZK', label: 'Zwart + Kortharig', bg: '#dbeafe', rand: '#2563eb' },
+      { code: 'ZL', label: 'Zwart + Langharig', bg: '#fef3c7', rand: '#d97706' },
+      { code: 'WK', label: 'Wit + Kortharig', bg: '#dcfce7', rand: '#16a34a' },
+      { code: 'WL', label: 'Wit + Langharig', bg: '#fce7f3', rand: '#db2777' }
+    ];
+
+    const filterContainer = document.getElementById('visDiFenotypeFilter');
+    filterContainer.innerHTML = '';
+
+    groepen.forEach(g => {
+      const aantal = tellingen[g.code];
+      const actief = (actiefFenotypeFilter === g.code);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.onclick = () => toggleFenotypeFilter(g.code);
+      btn.style.cssText = `
+        background: ${g.bg};
+        border: ${actief ? '3px' : '1.5px'} solid ${g.rand};
+        border-radius: 8px;
+        padding: 8px 10px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        color: #0f172a;
+        font-size: 0.88rem;
+      `;
+      btn.innerHTML = `${g.label}<br><span style="font-size: 1.05rem;">${aantal}/16 (${((aantal / 16) * 100).toFixed(1).replace('.0', '')}%)</span>`;
+      filterContainer.appendChild(btn);
+    });
+
+    // Verhouding vereenvoudigen
+    const vals = [tellingen.ZK, tellingen.ZL, tellingen.WK, tellingen.WL];
+    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+    const deler = vals.reduce((acc, v) => gcd(acc, v), 0) || 1;
+    const verhouding = vals.map(v => v / deler).join(' : ');
+
+    document.getElementById('visDiUitslag').innerHTML = `
+      <strong>Fenotype-verhouding bij ${o1} × ${o2}:</strong> <span style="font-size: 1.1rem; color: #1b6ca8; font-weight: bold;">${verhouding}</span><br>
+      <span style="font-size: 0.88rem; color: #475569;">Tip: Klik op één van de vier gekleurde fenotype-knoppen hierboven om alleen die vakjes in het schema op te lichten (klik nogmaals om alles weer te tonen).</span>
+    `;
+  }
+
+    // =====================================================================
+  // SCOREBORD + MIJLPAAL CONFETTI & PULSE SYSTEEM
+  // =====================================================================
+  let aantalGoed = 0;
+  let aantalFout = 0;
+  let huidigeReeks = 0;
+  const gescoordeVragen = new Set();
+  const voltooideModules = new Set();
+
+  function vierMijlpaal(bericht) {
+    const bord = document.getElementById('scorebord');
+    const toast = document.getElementById('milestone-toast');
+
+    if (bord) {
+      bord.classList.remove('score-celebrate');
+      void bord.offsetWidth; // Forceer herstart van animatie
+      bord.classList.add('score-celebrate');
+    }
+
+    if (toast) {
+      toast.textContent = bericht;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 3200);
+    }
+
+    // Genereer 32 confetti-deeltjes vanaf het scorebord linksonder
+    const kleuren = ['#16a34a', '#1b6ca8', '#eab308', '#ec4899', '#8b5cf6', '#06b6d4'];
+    const startX = 95;
+    const startY = window.innerHeight - 40;
+
+    for (let i = 0; i < 32; i++) {
+      const stukje = document.createElement('div');
+      stukje.className = 'confetti-piece';
+      stukje.style.left = `${startX}px`;
+      stukje.style.top = `${startY}px`;
+      stukje.style.backgroundColor = kleuren[i % kleuren.length];
+
+      // Willekeurige richting omhoog en naar rechts
+      const dx = (Math.random() * 260) - 30;
+      const dy = -(Math.random() * 240 + 80);
+      stukje.style.setProperty('--dx', `${dx}px`);
+      stukje.style.setProperty('--dy', `${dy}px`);
+
+      document.body.appendChild(stukje);
+      setTimeout(() => stukje.remove(), 1650);
+    }
+  }
+
+  function controleerModuleFoutloos(cardElement) {
+    if (!cardElement || voltooideModules.has(cardElement)) return;
+
+    // Zoek alle uniek genummerde feedback-paragrafen in deze module
+    const fbElements = Array.from(cardElement.querySelectorAll('p[id^="fb-"], p[id^="f"]'))
+      .filter(p => p.id && p.id !== 'fb-notaties');
+
+    if (fbElements.length < 2) return;
+
+    const allemaalBeantwoord = fbElements.every(p => gescoordeVragen.has(p.id));
+    const allesGroen = fbElements.every(p => p.style.color === 'rgb(22, 163, 74)' || p.style.color === '#16a34a');
+
+    if (allemaalBeantwoord && allesGroen) {
+      voltooideModules.add(cardElement);
+      const h2 = cardElement.querySelector('h2');
+      const titel = h2 ? h2.textContent.split(':')[0] : 'Module';
+      vierMijlpaal(`🏆 ${titel} helemaal foutloos afgerond!`);
+    }
+  }
+
+  function registreerScore(vraagId, isGoed, bronElement) {
+    if (gescoordeVragen.has(vraagId)) return;
+    gescoordeVragen.add(vraagId);
+
+    if (isGoed) {
+      aantalGoed++;
+      huidigeReeks++;
+
+      // Vier elke 5 goede antwoorden op een rij
+      if (huidigeReeks > 0 && huidigeReeks % 5 === 0) {
+        vierMijlpaal(`🔥 ${huidigeReeks} op een rij goed!`);
+      }
+    } else {
+      aantalFout++;
+      huidigeReeks = 0; // Reset reeks bij een fout antwoord
+    }
+
+    const goedEl = document.getElementById('score-goed');
+    const foutEl = document.getElementById('score-fout');
+    if (goedEl) goedEl.textContent = `${aantalGoed} goed`;
+    if (foutEl) foutEl.textContent = `${aantalFout} fout`;
+
+    // Controleer of de hele module waarin deze vraag staat foutloos is afgerond
+    if (isGoed && bronElement) {
+      const card = bronElement.closest('section.card');
+      controleerModuleFoutloos(card);
+    }
+  }
+
+  function antwoord(knop, isGoed, feedbackId, tekst) {
+    const fb = document.getElementById(feedbackId);
+    if (isGoed) {
+      knop.style.backgroundColor = '#dcfce7';
+      knop.style.borderColor = '#16a34a';
+      if (fb) {
+        fb.style.color = '#16a34a';
+        fb.textContent = tekst;
+      }
+    } else {
+      knop.style.backgroundColor = '#fee2e2';
+      knop.style.borderColor = '#dc2626';
+      if (fb) {
+        fb.style.color = '#dc2626';
+        fb.textContent = tekst;
+      }
+    }
+    registreerScore(feedbackId, isGoed, knop);
+  }
+
+
+  // =====================================================================
+  // MODULE: KERNBEGRIPPEN INVULOEFENING (VWO 4 GENETICA)
+  // =====================================================================
+  const genBegrippenLijst = [
+    'genotype', 'fenotype', 'homozygoot', 'heterozygoot',
+    'dominant', 'recessief', 'codominantie', 'intermediair',
+    'lethale factor', 'terugkruising', 'draagster', 'crossing-over'
+  ];
+
+  function vulGenWordBank() {
+    const bank = document.getElementById('gen-wordbank');
+    if (!bank) return;
+    const gehusseld = [...genBegrippenLijst].sort(() => Math.random() - 0.5);
+    bank.innerHTML = gehusseld.map(w => `<code>${w}</code>`).join(' &bull; ');
+  }
+
+  function checkGenBegrippen() {
+    const inputs = document.querySelectorAll('#gen-begrippen-quiz .g-blank');
+    let goedCount = 0;
+
+    inputs.forEach((input, index) => {
+      // Normaliseer spaties en koppeltekens (zodat bijv. 'crossing over' en 'crossing-over' beide goed zijn)
+      const userVal = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      const correctVal = input.dataset.answer.toLowerCase();
+
+      const isMatch = (userVal === correctVal) ||
+                      (correctVal === 'crossing-over' && userVal === 'crossing over');
+
+      if (isMatch && userVal !== '') {
+        input.style.border = '2px solid #16a34a';
+        input.style.backgroundColor = '#dcfce7';
+        goedCount++;
+        if (typeof registreerScore === 'function') {
+          registreerScore(`gen-invul-${index}`, true);
+        }
+      } else {
+        input.style.border = '2px solid #dc2626';
+        input.style.backgroundColor = '#fee2e2';
+        if (typeof registreerScore === 'function' && userVal !== '') {
+          registreerScore(`gen-invul-${index}`, false);
+        }
+      }
+    });
+
+    const fb = document.getElementById('fb-gen-begrippen');
+    if (goedCount === inputs.length) {
+      fb.style.color = '#16a34a';
+      fb.textContent = `Uitstekend! Je hebt alle ${inputs.length} kernbegrippen goed ingevuld!`;
+    } else {
+      fb.style.color = '#dc2626';
+      fb.textContent = `Je hebt ${goedCount} van de ${inputs.length} goed. Pas de rode vakjes aan en probeer het opnieuw.`;
+    }
+  }
+
+  function resetGenBegrippen() {
+    const inputs = document.querySelectorAll('#gen-begrippen-quiz .g-blank');
+    inputs.forEach(input => {
+      input.value = '';
+      input.style.border = '1px solid #94a3b8';
+      input.style.backgroundColor = '#ffffff';
+    });
+    document.getElementById('fb-gen-begrippen').textContent = '';
+    vulGenWordBank();
+  }
+
+  // Initialiseer woordbank direct bij laden
+  vulGenWordBank();
+
+    // =====================================================================
+  // MODULE: 3D FLASHCARD BEGRIPPENTRAINER (VWO 4 GENETICA)
+  // =====================================================================
+  let fcDeck = [];
+  let fcTotal = 0;
+  let fcMastered = 0;
+
+  function haalBegrippenOp() {
+    const items = document.querySelectorAll('details.vocab-item');
+    if (items.length > 0) {
+      return Array.from(items).map(item => {
+        const rawTerm = item.querySelector('summary').textContent.replace(/^\d+\.\s*/, '').trim();
+        const defHtml = item.querySelector('p').innerHTML.trim();
+        return { term: rawTerm, def: defHtml };
+      });
+    }
+    return [
+      { term: 'Genotype', def: 'De verzameling genen (allelen) die een organisme bezit voor een eigenschap, bijvoorbeeld <em>Aa</em>.' },
+      { term: 'Fenotype', def: 'Het waarneembare kenmerk van een organisme, ontstaan door het genotype en milieufactoren.' },
+      { term: 'Homozygoot', def: 'Twee gelijke allelen voor een eigenschap op een chromosomenpaar (<em>AA</em> of <em>aa</em>).' },
+      { term: 'Heterozygoot', def: 'Twee verschillende allelen voor een eigenschap op een chromosomenpaar (<em>Aa</em>).' }
+    ];
+  }
+
+  function initFlashcards() {
+    const bron = haalBegrippenOp();
+    fcDeck = [...bron].sort(() => Math.random() - 0.5);
+    fcTotal = fcDeck.length;
+    fcMastered = 0;
+    toonHuidigeFlashcard();
+  }
+
+  function draaiFlashcard() {
+    if (fcDeck.length === 0) return;
+    document.getElementById('fc-scene').classList.toggle('is-flipped');
+  }
+
+  function toonHuidigeFlashcard() {
+    const scene = document.getElementById('fc-scene');
+    scene.classList.remove('is-flipped');
+
+    document.getElementById('fc-status').textContent = `Beheerst: ${fcMastered} / ${fcTotal} begrippen`;
+    document.getElementById('fc-remaining').textContent = `Nog in stapel: ${fcDeck.length}`;
+    const pct = fcTotal > 0 ? Math.round((fcMastered / fcTotal) * 100) : 0;
+    document.getElementById('fc-progress-bar').style.width = `${pct}%`;
+
+    const termEl = document.getElementById('fc-term');
+    const defEl = document.getElementById('fc-def');
+
+    if (fcDeck.length === 0) {
+      termEl.innerHTML = '🎉 Alle begrippen beheerst!';
+      defEl.innerHTML = 'Klik op <strong>Nieuwe stapel</strong> om alle begrippen opnieuw te husselen en te oefenen.';
+      return;
+    }
+
+    const huidige = fcDeck.at(0);
+    setTimeout(() => {
+      termEl.textContent = huidige.term;
+      defEl.innerHTML = huidige.def;
+    }, 150);
+  }
+
+  function beoordeelFlashcard(kentHet) {
+    if (fcDeck.length === 0) return;
+
+    const huidige = fcDeck.shift();
+    if (kentHet) {
+      fcMastered++;
+      if (typeof registreerScore === 'function') {
+        registreerScore(`fc-${huidige.term}`, true);
+      }
+    } else {
+      fcDeck.push(huidige);
+    }
+    toonHuidigeFlashcard();
+  }
+
+  initFlashcards();
+</script>
+
+</body>
+</html>
